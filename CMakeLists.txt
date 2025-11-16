@@ -18,6 +18,8 @@ endif()
 # 添加子项目
 add_subdirectory(web)
 add_subdirectory(front)
+add_subdirectory(agent)
+add_subdirectory(receptor)
 
 # 使用不同的目标名（不要使用"all"）
 add_custom_target(build_all DEPENDS web front)
