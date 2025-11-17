@@ -1,26 +1,38 @@
-cmake_minimum_required(VERSION 3.12)
-project(Win32 VERSION 1.0.0 LANGUAGES C CXX)
+ï»¿cmake_minimum_required(VERSION 3.12)
+project(webset VERSION 1.0.0 LANGUAGES C CXX)
 
-# ÉèÖÃC++±ê×¼
+# è®¾ç½®C++æ ‡å‡†
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# ÉèÖÃÊä³öÄ¿Â¼£¬ÈÃ¿ÉÖ´ĞĞÎÄ¼şÔÚbuild¸ùÄ¿Â¼ÏÂ
+# è®¾ç½®è¾“å‡ºç›®å½•ï¼Œè®©å¯æ‰§è¡Œæ–‡ä»¶åœ¨buildæ ¹ç›®å½•ä¸‹
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
-# ±àÒëÀàĞÍ
+# ç¼–è¯‘ç±»å‹
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# Ìí¼Ó×ÓÏîÄ¿
-add_subdirectory(web)
+# æ˜¾ç¤ºæ‰€æœ‰ç³»ç»Ÿç›¸å…³ä¿¡æ¯
+message(STATUS "CMake System: ${CMAKE_SYSTEM}")
+message(STATUS "CMake System Name: ${CMAKE_SYSTEM_NAME}")
+message(STATUS "CMake System Version: ${CMAKE_SYSTEM_VERSION}")
+message(STATUS "CMake System Processor: ${CMAKE_SYSTEM_PROCESSOR}")
+message(STATUS "CMake Generator: ${CMAKE_GENERATOR}")
+
+# ç¼–è¯‘å™¨ä¿¡æ¯
+message(STATUS "C++ Compiler: ${CMAKE_CXX_COMPILER}")
+message(STATUS "C++ Compiler ID: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS "C++ Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
+
+# æ·»åŠ å­é¡¹ç›®
+add_subdirectory(frontend)
 add_subdirectory(front)
 add_subdirectory(agent)
 add_subdirectory(receptor)
 
-add_custom_target(final DEPENDS web front agent broker)
+add_custom_target(final DEPENDS web front agent receptor)
 
 message(STATUS "Build directory: ${CMAKE_BINARY_DIR}")

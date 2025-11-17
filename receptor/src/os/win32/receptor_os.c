@@ -35,7 +35,7 @@ receptor_win32_error_string(receptor_int_t error)
 	);
 
 	if (len == 0) {
-		_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "Unknown error %d", error);
+		_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "Unknown error %lld", error);
 	}
 
 	return buffer;

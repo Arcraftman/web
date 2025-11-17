@@ -1,10 +1,10 @@
-#include "receptor_event.h"
+#include "../receptor_event.h"
 
 #ifdef __linux__
 #include <sys/epoll.h>
 #include <stdlib.h>
 
-/* ==================== Epoll 事件模块实现 ==================== */
+/* ==================== Epoll 浜嬩欢妯″潡瀹炵幇 ==================== */
 
 #define MAX_EVENTS 64
 
@@ -94,7 +94,7 @@ receptor_epoll_done(void)
 	}
 }
 
-/* ==================== Epoll 事件操作结构 ==================== */
+/* ==================== Epoll 浜嬩欢鎿嶄綔缁撴瀯 ==================== */
 
 static const receptor_event_actions_t receptor_epoll_actions = {
 	receptor_epoll_add_event,
@@ -106,7 +106,7 @@ static const receptor_event_actions_t receptor_epoll_actions = {
 	receptor_epoll_done
 };
 
-/* ==================== Epoll 模块注册函数 ==================== */
+/* ==================== Epoll 妯″潡娉ㄥ唽鍑芥暟 ==================== */
 
 RECEPTOR_API void
 receptor_event_epoll_register(void)

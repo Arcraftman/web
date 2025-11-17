@@ -1,4 +1,4 @@
-#include "receptor_event.h"
+#include "../receptor_event.h"
 #include "../include/receptor_defs.h"
 #include <stdlib.h>
 
@@ -11,7 +11,7 @@
 #include <unistd.h>
 #endif
 
-/* ==================== Select 事件模块实现 ==================== */
+/* ==================== Select 浜嬩欢妯″潡瀹炵幇 ==================== */
 
 static receptor_int_t
 receptor_select_init(void)
@@ -31,11 +31,11 @@ receptor_select_add_event(receptor_event_t *ev, receptor_int_t event, receptor_u
 static receptor_int_t
 receptor_select_process_events(void)
 {
-	/* 简单的 select 实现 */
+	/* 绠�鍗曠殑 select 瀹炵幇 */
 #ifdef _WIN32
-	Sleep(100);  /* Windows 休眠 */
+	Sleep(100);  /* Windows 浼戠湢 */
 #else
-	usleep(100000);  /* Unix 休眠 100ms */
+	usleep(100000);  /* Unix 浼戠湢 100ms */
 #endif
 	return RECEPTOR_OK;
 }
@@ -43,10 +43,10 @@ receptor_select_process_events(void)
 static void
 receptor_select_done(void)
 {
-	/* 清理资源 */
+	/* 娓呯悊璧勬簮 */
 }
 
-/* ==================== Select 事件操作结构 ==================== */
+/* ==================== Select 浜嬩欢鎿嶄綔缁撴瀯 ==================== */
 
 static const receptor_event_actions_t receptor_select_actions = {
 	receptor_select_add_event,
@@ -58,7 +58,7 @@ static const receptor_event_actions_t receptor_select_actions = {
 	receptor_select_done
 };
 
-/* ==================== Select 模块注册函数 ==================== */
+/* ==================== Select 妯″潡娉ㄥ唽鍑芥暟 ==================== */
 
 RECEPTOR_API void
 receptor_event_select_register(void)
