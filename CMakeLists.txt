@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(MyProject VERSION 1.0.0 LANGUAGES C CXX)
+project(Win32 VERSION 1.0.0 LANGUAGES C CXX)
 
 # 设置C++标准
 set(CMAKE_CXX_STANDARD 17)
@@ -21,7 +21,6 @@ add_subdirectory(front)
 add_subdirectory(agent)
 add_subdirectory(receptor)
 
-# 使用不同的目标名（不要使用"all"）
-add_custom_target(build_all DEPENDS web front)
+add_custom_target(final DEPENDS web front agent broker)
 
 message(STATUS "Build directory: ${CMAKE_BINARY_DIR}")

@@ -1,0 +1,249 @@
+#ifndef _RECEPTOR_CONFIG_H_
+#define _RECEPTOR_CONFIG_H_
+
+/* ===========================================================================
+ * receptor_config.h - 自动生成的配置头文件
+ * 
+ * 此文件由 CMake 根据系统配置自动生成
+ * 不要手动编辑此文件！
+ * =========================================================================== */
+
+/* ==================== 版本信息 ==================== */
+#define RECEPTOR_VERSION_MAJOR      @receptor_VERSION_MAJOR@
+#define RECEPTOR_VERSION_MINOR      @receptor_VERSION_MINOR@
+#define RECEPTOR_VERSION_PATCH      @receptor_VERSION_PATCH@
+#define RECEPTOR_VERSION            "@receptor_VERSION@"
+#define RECEPTOR_VERSION_STRING     "receptor/@receptor_VERSION@"
+
+/* ==================== 构建配置 ==================== */
+#cmakedefine RECEPTOR_BUILD_STATIC
+#cmakedefine RECEPTOR_BUILD_SHARED
+#cmakedefine RECEPTOR_BUILD_DLL
+#cmakedefine RECEPTOR_BUILD_EXECUTABLE
+
+/* ==================== 平台检测 ==================== */
+#cmakedefine RECEPTOR_PLATFORM_WIN32
+#cmakedefine RECEPTOR_PLATFORM_UNIX
+#cmakedefine RECEPTOR_PLATFORM_LINUX
+#cmakedefine RECEPTOR_PLATFORM_MACOS
+#cmakedefine RECEPTOR_PLATFORM_CYGWIN
+#cmakedefine RECEPTOR_PLATFORM_MINGW
+
+/* ==================== 架构检测 ==================== */
+#cmakedefine RECEPTOR_ARCH_X86
+#cmakedefine RECEPTOR_ARCH_X64
+#cmakedefine RECEPTOR_ARCH_ARM
+#cmakedefine RECEPTOR_ARCH_ARM64
+
+/* ==================== 编译器检测 ==================== */
+#cmakedefine RECEPTOR_COMPILER_MSVC
+#cmakedefine RECEPTOR_COMPILER_GCC
+#cmakedefine RECEPTOR_COMPILER_CLANG
+#cmakedefine RECEPTOR_COMPILER_MINGW
+
+#cmakedefine RECEPTOR_COMPILER_VERSION_MAJOR @CMAKE_C_COMPILER_VERSION_MAJOR@
+#cmakedefine RECEPTOR_COMPILER_VERSION_MINOR @CMAKE_C_COMPILER_VERSION_MINOR@
+#cmakedefine RECEPTOR_COMPILER_VERSION       "@CMAKE_C_COMPILER_VERSION@"
+
+/* ==================== 事件模型支持 ==================== */
+#cmakedefine RECEPTOR_HAVE_EPOLL
+#cmakedefine RECEPTOR_HAVE_KQUEUE
+#cmakedefine RECEPTOR_HAVE_IOCP
+#cmakedefine RECEPTOR_HAVE_SELECT
+#cmakedefine RECEPTOR_HAVE_POLL
+#cmakedefine RECEPTOR_HAVE_DEVPOLL
+
+/* ==================== 模块支持 ==================== */
+#cmakedefine RECEPTOR_HTTP_MODULE
+#cmakedefine RECEPTOR_STREAM_MODULE
+#cmakedefine RECEPTOR_EVENT_MODULE
+#cmakedefine RECEPTOR_CORE_MODULE
+#cmakedefine RECEPTOR_OS_MODULE
+
+/* ==================== 特性支持 ==================== */
+#cmakedefine RECEPTOR_HAVE_OPENSSL
+#cmakedefine RECEPTOR_HAVE_ZLIB
+#cmakedefine RECEPTOR_HAVE_PCRE
+#cmakedefine RECEPTOR_HAVE_PCRE2
+#cmakedefine RECEPTOR_HAVE_ICONV
+#cmakedefine RECEPTOR_HAVE_GD
+#cmakedefine RECEPTOR_HAVE_XML2
+
+/* ==================== 系统特性 ==================== */
+#cmakedefine RECEPTOR_HAVE_SENDFILE
+#cmakedefine RECEPTOR_HAVE_MMAP
+#cmakedefine RECEPTOR_HAVE_MALLOC_TRIM
+#cmakedefine RECEPTOR_HAVE_POSIX_MEMALIGN
+#cmakedefine RECEPTOR_HAVE_MEMALIGN
+#cmakedefine RECEPTOR_HAVE_VALGRIND
+
+/* ==================== 网络特性 ==================== */
+#cmakedefine RECEPTOR_HAVE_IPV6
+#cmakedefine RECEPTOR_HAVE_TCP_FASTOPEN
+#cmakedefine RECEPTOR_HAVE_TCP_DEFER_ACCEPT
+#cmakedefine RECEPTOR_HAVE_ACCEPT4
+#cmakedefine RECEPTOR_HAVE_SO_REUSEPORT
+
+/* ==================== 线程支持 ==================== */
+#cmakedefine RECEPTOR_HAVE_PTHREAD
+#cmakedefine RECEPTOR_HAVE_PTHREAD_AFFINITY
+#cmakedefine RECEPTOR_HAVE_PTHREAD_BARRIER
+#cmakedefine RECEPTOR_HAVE_PTHREAD_SPINLOCK
+
+/* ==================== 原子操作支持 ==================== */
+#cmakedefine RECEPTOR_HAVE_ATOMIC_BUILTINS
+#cmakedefine RECEPTOR_HAVE_SYNC_BUILTINS
+#cmakedefine RECEPTOR_HAVE_ATOMIC_OPS
+
+/* ==================== 编译器特性 ==================== */
+#cmakedefine RECEPTOR_HAVE_VISIBILITY
+#cmakedefine RECEPTOR_HAVE_ATTRIBUTE_ALIGNED
+#cmakedefine RECEPTOR_HAVE_ATTRIBUTE_ALWAYS_INLINE
+#cmakedefine RECEPTOR_HAVE_ATTRIBUTE_NOINLINE
+#cmakedefine RECEPTOR_HAVE_ATTRIBUTE_NORETURN
+#cmakedefine RECEPTOR_HAVE_ATTRIBUTE_UNUSED
+#cmakedefine RECEPTOR_HAVE_ATTRIBUTE_FORMAT
+#cmakedefine RECEPTOR_HAVE_BUILTIN_EXPECT
+#cmakedefine RECEPTOR_HAVE_BUILTIN_UNREACHABLE
+
+/* ==================== 调试支持 ==================== */
+#cmakedefine RECEPTOR_DEBUG
+#cmakedefine RECEPTOR_DEBUG_ALLOC
+#cmakedefine RECEPTOR_DEBUG_EVENT
+#cmakedefine RECEPTOR_DEBUG_HTTP
+#cmakedefine RECEPTOR_DEBUG_STREAM
+
+/* ==================== 安装路径 ==================== */
+#define RECEPTOR_PREFIX              "@CMAKE_INSTALL_PREFIX@"
+#define RECEPTOR_BINDIR              "@CMAKE_INSTALL_BINDIR@"
+#define RECEPTOR_LIBDIR              "@CMAKE_INSTALL_LIBDIR@"
+#define RECEPTOR_INCLUDEDIR          "@CMAKE_INSTALL_INCLUDEDIR@"
+#define RECEPTOR_SYSCONFDIR          "@CMAKE_INSTALL_SYSCONFDIR@"
+
+/* ==================== 文件路径 ==================== */
+#define RECEPTOR_CONF_PATH           "@CMAKE_INSTALL_FULL_SYSCONFDIR@/receptor/receptor.conf"
+#define RECEPTOR_PID_PATH            "@CMAKE_INSTALL_FULL_LOCALSTATEDIR@/run/receptor.pid"
+#define RECEPTOR_LOCK_PATH           "@CMAKE_INSTALL_FULL_LOCALSTATEDIR@/lock/receptor.lock"
+#define RECEPTOR_LOG_PATH            "@CMAKE_INSTALL_FULL_LOCALSTATEDIR@/log/receptor.log"
+
+/* ==================== 默认配置 ==================== */
+#define RECEPTOR_DEFAULT_PORT        8080
+#define RECEPTOR_DEFAULT_BACKLOG     511
+#define RECEPTOR_DEFAULT_WORKERS     1
+#define RECEPTOR_DEFAULT_TIMEOUT     30000
+#define RECEPTOR_MAX_HEADER_SIZE     8192
+#define RECEPTOR_MAX_BODY_SIZE       10485760  /* 10MB */
+
+/* ==================== 特性宏定义 ==================== */
+
+/* 内联函数支持 */
+#if defined(RECEPTOR_HAVE_ATTRIBUTE_ALWAYS_INLINE)
+#define RECEPTOR_INLINE __attribute__((always_inline)) inline
+#elif defined(_MSC_VER)
+#define RECEPTOR_INLINE __forceinline
+#else
+#define RECEPTOR_INLINE inline
+#endif
+
+/* 无返回函数支持 */
+#if defined(RECEPTOR_HAVE_ATTRIBUTE_NORETURN)
+#define RECEPTOR_NORETURN __attribute__((noreturn))
+#elif defined(_MSC_VER)
+#define RECEPTOR_NORETURN __declspec(noreturn)
+#else
+#define RECEPTOR_NORETURN
+#endif
+
+/* 格式字符串检查 */
+#if defined(RECEPTOR_HAVE_ATTRIBUTE_FORMAT)
+#define RECEPTOR_PRINTF_FORMAT(f, a) __attribute__((format(printf, f, a)))
+#else
+#define RECEPTOR_PRINTF_FORMAT(f, a)
+#endif
+
+/* 未使用变量 */
+#if defined(RECEPTOR_HAVE_ATTRIBUTE_UNUSED)
+#define RECEPTOR_UNUSED __attribute__((unused))
+#else
+#define RECEPTOR_UNUSED
+#endif
+
+/* 对齐要求 */
+#if defined(RECEPTOR_HAVE_ATTRIBUTE_ALIGNED)
+#define RECEPTOR_ALIGNED(x) __attribute__((aligned(x)))
+#elif defined(_MSC_VER)
+#define RECEPTOR_ALIGNED(x) __declspec(align(x))
+#else
+#define RECEPTOR_ALIGNED(x)
+#endif
+
+/* 分支预测优化 */
+#if defined(RECEPTOR_HAVE_BUILTIN_EXPECT)
+#define RECEPTOR_LIKELY(x)   __builtin_expect(!!(x), 1)
+#define RECEPTOR_UNLIKELY(x) __builtin_expect(!!(x), 0)
+#else
+#define RECEPTOR_LIKELY(x)   (x)
+#define RECEPTOR_UNLIKELY(x) (x)
+#endif
+
+/* 不可达代码 */
+#if defined(RECEPTOR_HAVE_BUILTIN_UNREACHABLE)
+#define RECEPTOR_UNREACHABLE() __builtin_unreachable()
+#else
+#define RECEPTOR_UNREACHABLE() do { } while (1)
+#endif
+
+/* ==================== 平台特定包含 ==================== */
+
+#if defined(RECEPTOR_PLATFORM_WIN32)
+/* Windows 特定定义 */
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0600  /* Windows Vista / Server 2008 */
+#endif
+
+#elif defined(RECEPTOR_PLATFORM_UNIX)
+/* Unix 通用定义 */
+#define _POSIX_C_SOURCE 200809L
+#define _XOPEN_SOURCE 700
+#define _GNU_SOURCE
+
+#if defined(RECEPTOR_PLATFORM_LINUX)
+/* Linux 特定定义 */
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+#endif
+
+#if defined(RECEPTOR_PLATFORM_MACOS)
+/* macOS 特定定义 */
+#define _DARWIN_C_SOURCE
+#endif
+
+#endif /* 平台检测 */
+
+/* ==================== 兼容性定义 ==================== */
+
+/* 类型重定义以确保一致性 */
+#include <stddef.h>
+#include <stdint.h>
+
+/* 确保有 ssize_t 定义 */
+#ifdef _MSC_VER
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
+/* 布尔类型 */
+#ifndef __cplusplus
+#if !defined(__bool_true_false_are_defined) && !defined(bool)
+#define bool _Bool
+#define true 1
+#define false 0
+#define __bool_true_false_are_defined 1
+#endif
+#endif
+
+#endif /* _RECEPTOR_CONFIG_H_ */
