@@ -1,3 +1,4 @@
+#include <receptor/def.h>
 #include "receptor_list.h"
 #include <string.h>
 #include <stdlib.h>
@@ -57,7 +58,7 @@ receptor_list_create_node(receptor_list_t *list, const void *data)
 		}
 	}
 	else {
-		node_data = (void*)data;  /* ¶¯Ì¬´óÐ¡£¬Ö±½Ó´æ´¢Ö¸Õë */
+		node_data = (void*)data;  /* åŠ¨æ€å¤§å°ï¼Œç›´æŽ¥å­˜å‚¨æŒ‡é’ˆ */
 	}
 
 	node->data = node_data;
@@ -82,12 +83,12 @@ receptor_list_push_front(receptor_list_t *list, const void *data)
 	}
 
 	if (list->head == NULL) {
-		/* ¿ÕÁ´±í */
+		/* ç©ºé“¾è¡¨ */
 		list->head = node;
 		list->tail = node;
 	}
 	else {
-		/* ·Ç¿ÕÁ´±í */
+		/* éžç©ºé“¾è¡¨ */
 		node->next = list->head;
 		list->head->prev = node;
 		list->head = node;
@@ -112,12 +113,12 @@ receptor_list_push_back(receptor_list_t *list, const void *data)
 	}
 
 	if (list->tail == NULL) {
-		/* ¿ÕÁ´±í */
+		/* ç©ºé“¾è¡¨ */
 		list->head = node;
 		list->tail = node;
 	}
 	else {
-		/* ·Ç¿ÕÁ´±í */
+		/* éžç©ºé“¾è¡¨ */
 		node->prev = list->tail;
 		list->tail->next = node;
 		list->tail = node;
@@ -143,7 +144,7 @@ receptor_list_pop_front(receptor_list_t *list, void *data)
 	}
 
 	if (list->head == list->tail) {
-		/* Ö»ÓÐÒ»¸öÔªËØ */
+		/* åªæœ‰ä¸€ä¸ªå…ƒç´  */
 		list->head = NULL;
 		list->tail = NULL;
 	}
@@ -172,7 +173,7 @@ receptor_list_pop_back(receptor_list_t *list, void *data)
 	}
 
 	if (list->head == list->tail) {
-		/* Ö»ÓÐÒ»¸öÔªËØ */
+		/* åªæœ‰ä¸€ä¸ªå…ƒç´  */
 		list->head = NULL;
 		list->tail = NULL;
 	}
@@ -203,11 +204,11 @@ receptor_list_insert(receptor_list_t *list, receptor_list_iter_t *iter,
 	current = iter->current;
 
 	if (current == list->head) {
-		/* ÔÚÍ·²¿²åÈë */
+		/* åœ¨å¤´éƒ¨æ’å…¥ */
 		return receptor_list_push_front(list, data);
 	}
 
-	/* ÔÚÖÐ¼ä²åÈë */
+	/* åœ¨ä¸­é—´æ’å…¥ */
 	node->prev = current->prev;
 	node->next = current;
 	current->prev->next = node;
@@ -293,7 +294,7 @@ receptor_list_clear(receptor_list_t *list)
 	node = list->head;
 	while (node != NULL) {
 		next = node->next;
-		/* ÄÚ´æ³Ø»á×Ô¶¯ÊÍ·ÅÄÚ´æ */
+		/* å†…å­˜æ± ä¼šè‡ªåŠ¨é‡Šæ”¾å†…å­˜ */
 		node = next;
 	}
 
@@ -302,7 +303,7 @@ receptor_list_clear(receptor_list_t *list)
 	list->size = 0;
 }
 
-/* ¼òµ¥µÄ¹é²¢ÅÅÐòÊµÏÖ */
+/* ç®€å•çš„å½’å¹¶æŽ’åºå®žçŽ° */
 static receptor_list_node_t*
 receptor_list_merge_sort(receptor_list_node_t *head,
 	int(*compar)(const void *, const void *),
@@ -315,7 +316,7 @@ receptor_list_merge_sort(receptor_list_node_t *head,
 		return head;
 	}
 
-	/* ÕÒµ½ÖÐ¼äµã */
+	/* æ‰¾åˆ°ä¸­é—´ç‚¹ */
 	slow = head;
 	fast = head->next;
 
@@ -327,11 +328,11 @@ receptor_list_merge_sort(receptor_list_node_t *head,
 	right = slow->next;
 	slow->next = NULL;
 
-	/* µÝ¹éÅÅÐò */
+	/* é€’å½’æŽ’åº */
 	left = receptor_list_merge_sort(head, compar, NULL);
 	right = receptor_list_merge_sort(right, compar, tail);
 
-	/* ºÏ²¢ */
+	/* åˆå¹¶ */
 	result = NULL;
 	last = NULL;
 
@@ -397,7 +398,7 @@ receptor_list_sort(receptor_list_t *list,
 	list->head = receptor_list_merge_sort(list->head, compar, &tail);
 	list->tail = tail;
 
-	/* ÖØÐÂÉèÖÃprevÖ¸Õë */
+	/* é‡æ–°è®¾ç½®prevæŒ‡é’ˆ */
 	receptor_list_node_t *node = list->head;
 	receptor_list_node_t *prev = NULL;
 
@@ -408,7 +409,7 @@ receptor_list_sort(receptor_list_t *list,
 	}
 }
 
-/* ==================== µü´úÆ÷º¯ÊýÊµÏÖ ==================== */
+/* ==================== è¿­ä»£å™¨å‡½æ•°å®žçŽ° ==================== */
 
 RECEPTOR_API receptor_list_iter_t
 receptor_list_begin(receptor_list_t *list)

@@ -1,9 +1,9 @@
-#include "receptor_event.h"
-#include "../include/receptor_defs.h"
+#include <receptor/def.h>
+#include <receptor_event.h>
 
-/* ==================== È«¾ÖÊÂ¼ş²Ù×÷¶¨Òå ==================== */
+/* ==================== å…¨å±€äº‹ä»¶æ“ä½œå®šä¹‰ ==================== */
 
-/* ÔÚÕâÀï¶¨ÒåÈ«¾Ö±äÁ¿£¬¶ø²»ÊÇÔÚ¸÷¸öÄ£¿éÖĞ */
+/* åœ¨è¿™é‡Œå®šä¹‰å…¨å±€å˜é‡ï¼Œè€Œä¸æ˜¯åœ¨å„ä¸ªæ¨¡å—ä¸­	*/
 receptor_event_actions_t receptor_event_actions = {
 	NULL, /* add */
 	NULL, /* del */
@@ -14,7 +14,7 @@ receptor_event_actions_t receptor_event_actions = {
 	NULL  /* done */
 };
 
-/* ==================== ÊÂ¼şAPIÊµÏÖ ==================== */
+/* ==================== äº‹ä»¶APIå®ç° ==================== */
 
 RECEPTOR_API receptor_int_t
 receptor_event_init(void)
@@ -60,7 +60,7 @@ receptor_event_done(void)
 	}
 }
 
-/* ==================== ÊÂ¼ş²Ù×÷ÉèÖÃº¯Êı ==================== */
+/* ==================== äº‹ä»¶æ“ä½œè®¾ç½®å‡½æ•° ==================== */
 
 RECEPTOR_API void
 receptor_event_set_actions(const receptor_event_actions_t *actions)

@@ -2,27 +2,26 @@
 #ifndef _RECEPTOR_H_
 #define _RECEPTOR_H_
 
-#include "../include/receptor_defs.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	/* ==================== ºËĞÄÀàĞÍ¶¨Òå ==================== */
+	/* ==================== æ ¸å¿ƒç±»å‹å®šä¹‰ ==================== */
 
-	/* ÅäÖÃÉÏÏÂÎÄ */
+	/* é…ç½®ä¸Šä¸‹æ–‡ */
 	typedef struct receptor_conf_ctx_s receptor_conf_ctx_t;
 
-	/* Ä£¿é½á¹¹ */
+	/* æ¨¡å—ç»“æ„ */
 	typedef struct receptor_module_s receptor_module_t;
 
-	/* ºËĞÄÅäÖÃ */
+	/* æ ¸å¿ƒé…ç½® */
 	typedef struct receptor_core_conf_s receptor_core_conf_t;
 
-	/* ÖÜÆÚ½á¹¹£¨ÀàËÆnginxµÄcycle£© */
+	/* å‘¨æœŸç»“æ„ï¼ˆç±»ä¼¼nginxçš„cycleï¼‰ */
 	typedef struct receptor_cycle_s receptor_cycle_t;
 
-	/* ==================== Ä£¿éÏµÍ³ ==================== */
+	/* ==================== æ¨¡å—ç³»ç»Ÿ ==================== */
 
 	struct receptor_module_s {
 		const char* name;
@@ -31,170 +30,170 @@ extern "C" {
 		receptor_int_t(*exit_module)(receptor_cycle_t *cycle);
 	};
 
-	/* ==================== ºËĞÄAPI ==================== */
+	/* ==================== æ ¸å¿ƒAPI ==================== */
 
 	/**
-	 * @brief ³õÊ¼»¯receptor¿â
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief åˆå§‹åŒ–receptoråº“
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_init(void);
 
 	/**
-	 * @brief ÇåÀíreceptor¿â×ÊÔ´
+	 * @brief æ¸…ç†receptoråº“èµ„æº
 	 */
 	RECEPTOR_API void receptor_cleanup(void);
 
 	/**
-	 * @brief »ñÈ¡°æ±¾×Ö·û´®
-	 * @return °æ±¾×Ö·û´®
+	 * @brief è·å–ç‰ˆæœ¬å­—ç¬¦ä¸²
+	 * @return ç‰ˆæœ¬å­—ç¬¦ä¸²
 	 */
 	RECEPTOR_API const char* receptor_version(void);
 
 	/**
-	 * @brief »ñÈ¡°æ±¾ºÅ
-	 * @return °æ±¾ºÅ (Ö÷°æ±¾ << 16 | ´Î°æ±¾ << 8 | ĞŞ¶©°æ±¾)
+	 * @brief è·å–ç‰ˆæœ¬å·
+	 * @return ç‰ˆæœ¬å· (ä¸»ç‰ˆæœ¬ << 16 | æ¬¡ç‰ˆæœ¬ << 8 | ä¿®è®¢ç‰ˆæœ¬)
 	 */
 	RECEPTOR_API receptor_uint_t receptor_version_number(void);
 
-	/* ==================== ÅäÖÃÏµÍ³ ==================== */
+	/* ==================== é…ç½®ç³»ç»Ÿ ==================== */
 
 	/**
-	 * @brief ´´½¨ÅäÖÃÉÏÏÂÎÄ
-	 * @return ÅäÖÃÉÏÏÂÎÄÖ¸Õë
+	 * @brief åˆ›å»ºé…ç½®ä¸Šä¸‹æ–‡
+	 * @return é…ç½®ä¸Šä¸‹æ–‡æŒ‡é’ˆ
 	 */
 	RECEPTOR_API receptor_conf_ctx_t* receptor_create_conf_ctx(void);
 
 	/**
-	 * @brief Ïú»ÙÅäÖÃÉÏÏÂÎÄ
-	 * @param ctx ÅäÖÃÉÏÏÂÎÄ
+	 * @brief é”€æ¯é…ç½®ä¸Šä¸‹æ–‡
+	 * @param ctx é…ç½®ä¸Šä¸‹æ–‡
 	 */
 	RECEPTOR_API void receptor_destroy_conf_ctx(receptor_conf_ctx_t* ctx);
 
 	/**
-	 * @brief ´ÓÎÄ¼ş¼ÓÔØÅäÖÃ
-	 * @param ctx ÅäÖÃÉÏÏÂÎÄ
-	 * @param filename ÅäÖÃÎÄ¼şÂ·¾¶
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief ä»æ–‡ä»¶åŠ è½½é…ç½®
+	 * @param ctx é…ç½®ä¸Šä¸‹æ–‡
+	 * @param filename é…ç½®æ–‡ä»¶è·¯å¾„
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_load_conf(receptor_conf_ctx_t* ctx, const char* filename);
 
 	/**
-	 * @brief ½âÎöÅäÖÃ×Ö·û´®
-	 * @param ctx ÅäÖÃÉÏÏÂÎÄ
-	 * @param config_str ÅäÖÃ×Ö·û´®
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief è§£æé…ç½®å­—ç¬¦ä¸²
+	 * @param ctx é…ç½®ä¸Šä¸‹æ–‡
+	 * @param config_str é…ç½®å­—ç¬¦ä¸²
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_parse_conf(receptor_conf_ctx_t* ctx, const char* config_str);
 
-	/* ==================== ÖÜÆÚ¹ÜÀí ==================== */
+	/* ==================== å‘¨æœŸç®¡ç† ==================== */
 
 	/**
-	 * @brief ³õÊ¼»¯ÖÜÆÚ½á¹¹
-	 * @param conf_ctx ÅäÖÃÉÏÏÂÎÄ
-	 * @return ÖÜÆÚ½á¹¹Ö¸Õë
+	 * @brief åˆå§‹åŒ–å‘¨æœŸç»“æ„
+	 * @param conf_ctx é…ç½®ä¸Šä¸‹æ–‡
+	 * @return å‘¨æœŸç»“æ„æŒ‡é’ˆ
 	 */
 	RECEPTOR_API receptor_cycle_t* receptor_init_cycle(receptor_conf_ctx_t* conf_ctx);
 
 	/**
-	 * @brief Ïú»ÙÖÜÆÚ½á¹¹
-	 * @param cycle ÖÜÆÚ½á¹¹
+	 * @brief é”€æ¯å‘¨æœŸç»“æ„
+	 * @param cycle å‘¨æœŸç»“æ„
 	 */
 	RECEPTOR_API void receptor_destroy_cycle(receptor_cycle_t* cycle);
 
 	/**
-	 * @brief »ñÈ¡ºËĞÄÅäÖÃ
-	 * @param cycle ÖÜÆÚ½á¹¹
-	 * @return ºËĞÄÅäÖÃÖ¸Õë
+	 * @brief è·å–æ ¸å¿ƒé…ç½®
+	 * @param cycle å‘¨æœŸç»“æ„
+	 * @return æ ¸å¿ƒé…ç½®æŒ‡é’ˆ
 	 */
 	RECEPTOR_API receptor_core_conf_t* receptor_get_core_conf(receptor_cycle_t* cycle);
 
-	/* ==================== Ä£¿é¹ÜÀí ==================== */
+	/* ==================== æ¨¡å—ç®¡ç† ==================== */
 
 	/**
-	 * @brief ×¢²áÄ£¿é
-	 * @param module Ä£¿éÖ¸Õë
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief æ³¨å†Œæ¨¡å—
+	 * @param module æ¨¡å—æŒ‡é’ˆ
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_register_module(receptor_module_t* module);
 
 	/**
-	 * @brief °´Ãû³Æ²éÕÒÄ£¿é
-	 * @param name Ä£¿éÃû³Æ
-	 * @return Ä£¿éÖ¸Õë
+	 * @brief æŒ‰åç§°æŸ¥æ‰¾æ¨¡å—
+	 * @param name æ¨¡å—åç§°
+	 * @return æ¨¡å—æŒ‡é’ˆ
 	 */
 	RECEPTOR_API receptor_module_t* receptor_find_module(const char* name);
 
 	/**
-	 * @brief ³õÊ¼»¯ËùÓĞÄ£¿é
-	 * @param cycle ÖÜÆÚ½á¹¹
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief åˆå§‹åŒ–æ‰€æœ‰æ¨¡å—
+	 * @param cycle å‘¨æœŸç»“æ„
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_init_modules(receptor_cycle_t* cycle);
 
 	/**
-	 * @brief ÍË³öËùÓĞÄ£¿é
-	 * @param cycle ÖÜÆÚ½á¹¹
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief é€€å‡ºæ‰€æœ‰æ¨¡å—
+	 * @param cycle å‘¨æœŸç»“æ„
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_exit_modules(receptor_cycle_t* cycle);
 
-	/* ==================== ÔËĞĞÊ±¿ØÖÆ ==================== */
+	/* ==================== è¿è¡Œæ—¶æ§åˆ¶ ==================== */
 
 	/**
-	 * @brief Æô¶¯receptor·şÎñ
-	 * @param cycle ÖÜÆÚ½á¹¹
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief å¯åŠ¨receptoræœåŠ¡
+	 * @param cycle å‘¨æœŸç»“æ„
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_start(receptor_cycle_t* cycle);
 
 	/**
-	 * @brief Í£Ö¹receptor·şÎñ
-	 * @param cycle ÖÜÆÚ½á¹¹
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief åœæ­¢receptoræœåŠ¡
+	 * @param cycle å‘¨æœŸç»“æ„
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_stop(receptor_cycle_t* cycle);
 
 	/**
-	 * @brief ÖØĞÂ¼ÓÔØÅäÖÃ
-	 * @param cycle ÖÜÆÚ½á¹¹
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief é‡æ–°åŠ è½½é…ç½®
+	 * @param cycle å‘¨æœŸç»“æ„
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_reload(receptor_cycle_t* cycle);
 
-	/* ==================== ¹¤¾ßº¯Êı ==================== */
+	/* ==================== å·¥å…·å‡½æ•° ==================== */
 
 	/**
-	 * @brief »ñÈ¡´íÎóĞÅÏ¢
-	 * @return ´íÎóĞÅÏ¢×Ö·û´®
+	 * @brief è·å–é”™è¯¯ä¿¡æ¯
+	 * @return é”™è¯¯ä¿¡æ¯å­—ç¬¦ä¸²
 	 */
 	RECEPTOR_API const char* receptor_get_error(void);
 
 	/**
-	 * @brief ÉèÖÃ´íÎóĞÅÏ¢
-	 * @param format ´íÎóĞÅÏ¢¸ñÊ½
-	 * @param ... ¿É±ä²ÎÊı
+	 * @brief è®¾ç½®é”™è¯¯ä¿¡æ¯
+	 * @param format é”™è¯¯ä¿¡æ¯æ ¼å¼
+	 * @param ... å¯å˜å‚æ•°
 	 */
 	RECEPTOR_API void receptor_set_error(const char* format, ...);
 
 	/**
-	 * @brief »ñÈ¡×îºó´íÎó´úÂë
-	 * @return ´íÎó´úÂë
+	 * @brief è·å–æœ€åé”™è¯¯ä»£ç 
+	 * @return é”™è¯¯ä»£ç 
 	 */
 	RECEPTOR_API receptor_int_t receptor_get_last_error(void);
 
-	/* ==================== ĞÅºÅ´¦Àí ==================== */
+	/* ==================== ä¿¡å·å¤„ç† ==================== */
 
 	/**
-	 * @brief ³õÊ¼»¯ĞÅºÅ´¦Àí
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief åˆå§‹åŒ–ä¿¡å·å¤„ç†
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_init_signals(void);
 
 	/**
-	 * @brief Ìí¼ÓĞÅºÅ´¦Àí
-	 * @param signum ĞÅºÅ±àºÅ
-	 * @param handler ĞÅºÅ´¦Àíº¯Êı
-	 * @return RECEPTOR_OK ³É¹¦, RECEPTOR_ERROR Ê§°Ü
+	 * @brief æ·»åŠ ä¿¡å·å¤„ç†
+	 * @param signum ä¿¡å·ç¼–å·
+	 * @param handler ä¿¡å·å¤„ç†å‡½æ•°
+	 * @return RECEPTOR_OK æˆåŠŸ, RECEPTOR_ERROR å¤±è´¥
 	 */
 	RECEPTOR_API receptor_int_t receptor_add_signal(int signum, void(*handler)(int));
 

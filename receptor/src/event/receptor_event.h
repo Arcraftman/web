@@ -1,13 +1,13 @@
 #ifndef _RECEPTOR_EVENT_H_
 #define _RECEPTOR_EVENT_H_
 
-#include "../include/receptor_defs.h"
+#include <receptor/def.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	/* ==================== ÊÂ¼ş½á¹¹¶¨Òå ==================== */
+	/* ==================== äº‹ä»¶ç»“æ„å®šä¹‰ ==================== */
 
 	typedef struct receptor_event_s       receptor_event_t;
 	typedef void(*receptor_event_handler_pt)(receptor_event_t *ev);
@@ -20,7 +20,7 @@ extern "C" {
 		receptor_uint_t         ready : 1;
 	};
 
-	/* ==================== ÊÂ¼ş²Ù×÷½Ó¿Ú ==================== */
+	/* ==================== äº‹ä»¶æ“ä½œæ¥å£ ==================== */
 
 	typedef struct {
 		receptor_int_t(*add)(receptor_event_t *ev, receptor_int_t event, receptor_uint_t flags);
@@ -32,12 +32,12 @@ extern "C" {
 		void(*done)(void);
 	} receptor_event_actions_t;
 
-	/* ==================== È«¾ÖÊÂ¼ş²Ù×÷ÉùÃ÷ ==================== */
+	/* ==================== å…¨å±€äº‹ä»¶æ“ä½œå£°æ˜ ==================== */
 
-	/* Ê¹ÓÃ extern ÉùÃ÷£¬ÔÚÊÂ¼şÄ£¿éÖĞ¶¨Òå */
+	/* ä½¿ç”¨ extern å£°æ˜ï¼Œåœ¨äº‹ä»¶æ¨¡å—ä¸­å®šä¹‰ */
 	extern RECEPTOR_API receptor_event_actions_t receptor_event_actions;
 
-	/* ==================== ÊÂ¼şAPIº¯Êı ==================== */
+	/* ==================== äº‹ä»¶APIå‡½æ•° ==================== */
 
 	RECEPTOR_API receptor_int_t receptor_event_init(void);
 	RECEPTOR_API receptor_int_t receptor_event_add(receptor_event_t *ev, receptor_int_t event, receptor_uint_t flags);
@@ -45,26 +45,26 @@ extern "C" {
 	RECEPTOR_API receptor_int_t receptor_event_process(void);
 	RECEPTOR_API void receptor_event_done(void);
 
-	/* ==================== ÊÂ¼ş²Ù×÷ÉèÖÃº¯Êı ==================== */
+	/* ==================== äº‹ä»¶æ“ä½œè®¾ç½®å‡½æ•° ==================== */
 
 	RECEPTOR_API void receptor_event_set_actions(const receptor_event_actions_t *actions);
 
-	/* ==================== ÊÂ¼şÄ£¿é×¢²áº¯ÊıÉùÃ÷ ==================== */
+	/* ==================== äº‹ä»¶æ¨¡å—æ³¨å†Œå‡½æ•°å£°æ˜ ==================== */
 
-	/* Windows IOCP Ä£¿é×¢²á */
+	/* Windows IOCP æ¨¡å—æ³¨å†Œ */
 #ifdef _WIN32
 	RECEPTOR_API void receptor_event_iocp_register(void);
 #endif
 
-	/* Linux epoll Ä£¿é×¢²á */
+	/* Linux epoll æ¨¡å—æ³¨å†Œ */
 #ifdef __linux__
 	RECEPTOR_API void receptor_event_epoll_register(void);
 #endif
 
-	/* ¿çÆ½Ì¨ select Ä£¿é×¢²á */
+	/* è·¨å¹³å° select æ¨¡å—æ³¨å†Œ */
 	RECEPTOR_API void receptor_event_select_register(void);
 
-	/* ==================== ÊÂ¼şÄ£¿é×Ô¶¯³õÊ¼»¯ ==================== */
+	/* ==================== äº‹ä»¶æ¨¡å—è‡ªåŠ¨åˆå§‹åŒ– ==================== */
 
 	RECEPTOR_API receptor_int_t receptor_event_module_init(void);
 

@@ -1,246 +1,91 @@
+
 cmake_minimum_required(VERSION 3.12)
 
-project(receptor VERSION 1.0.0 LANGUAGES C DESCRIPTION "Receptor network library")
+project(receptor 
+    VERSION 0.0.1 
+    LANGUAGES C 
+    DESCRIPTION "Receptor library"
+)
 
-# ππΩ®—°œÓ
-option(RECEPTOR_BUILD_STATIC "Build receptor as static library" ON)
-option(RECEPTOR_BUILD_SHARED "Build receptor as shared library" OFF)
-option(RECEPTOR_BUILD_EXECUTABLE "Build receptor executable for testing" OFF)
-
-# …Ë÷√ƒ¨»œππΩ®¿‡–ÕŒ™æ≤Ã¨ø‚
-if(NOT RECEPTOR_BUILD_STATIC AND NOT RECEPTOR_BUILD_SHARED)
-    set(RECEPTOR_BUILD_STATIC ON)
+find_library(WS2_32_LIBRARY ws2_32)
+if(NOT WS2_32_LIBRARY)
+    message(FATAL_ERROR "Cannot find ws2_32 library")
 endif()
 
-# ∞¸∫¨ƒø¬º
-include_directories(src/include)
+# ÊûÑÂª∫ÈÄâÈ°π
+option(RECEPTOR_BUILD_STATIC "Build receptor as static library" OFF)
+option(RECEPTOR_BUILD_SHARED "Build receptor as shared library" ON)
+option(RECEPTOR_BUILD_EXECUTABLE "Build receptor executable for testing" ON)
 
-# ◊‘∂Ø ’ºØ‘¥Œƒº˛
-file(GLOB_RECURSE RECEPTOR_CORE_SOURCES 
-    "src/core/*.c"
-)
+# Ëá™Âä®Êî∂ÈõÜÊ∫êÊñá‰ª∂
+file(GLOB_RECURSE RECEPTOR_CORE_SOURCES "src/core/*.c")
+file(GLOB_RECURSE RECEPTOR_EVENT_SOURCES "src/event/*.c")
+file(GLOB_RECURSE RECEPTOR_HTTP_SOURCES "src/http/*.c")
 
-file(GLOB_RECURSE RECEPTOR_EVENT_SOURCES 
-    "src/event/*.c"
-)
-
-file(GLOB_RECURSE RECEPTOR_HTTP_SOURCES 
-    "src/http/*.c"
-)
-
-file(GLOB_RECURSE RECEPTOR_OS_SOURCES 
-    "src/os/*.c"
-)
-
-# ∆ΩÃ®Ãÿ∂®‘¥Œƒº˛
+# Âπ≥Âè∞ÁâπÂÆöÊ∫êÊñá‰ª∂
 if(WIN32)
-    # Windows  π”√ IOCP ∫Õ select
     set(RECEPTOR_EVENT_MODULE_SOURCES 
-        "src/event/receptor_event_iocp.c"
-        "src/event/receptor_event_select.c"
+        "src/event/module/receptor_event_iocp.c"
+        "src/event/module/receptor_event_select.c"
     )
-    
-    # Windows Ãÿ∂® OS ‘¥Œƒº˛
-    set(RECEPTOR_OS_PLATFORM_SOURCES 
-        "src/os/win32/*.c"
-    )
+    file(GLOB RECEPTOR_OS_PLATFORM_SOURCES "src/os/win32/*.c")
 else()
-    # Unix  π”√ epoll/kqueue
     set(RECEPTOR_EVENT_MODULE_SOURCES 
-        "src/event/receptor_event_epoll.c"
-        "src/event/receptor_event_select.c"
+        "src/event/module/receptor_event_epoll.c"
+        "src/event/module/receptor_event_select.c"
     )
-    
-    # Unix Ãÿ∂® OS ‘¥Œƒº˛
-    set(RECEPTOR_OS_PLATFORM_SOURCES 
-        "src/os/unix/*.c"
-    )
+    file(GLOB RECEPTOR_OS_PLATFORM_SOURCES "src/os/unix/*.c")
 endif()
 
-# ∫œ≤¢À˘”–‘¥Œƒº˛
+# ÂêàÂπ∂ÊâÄÊúâÊ∫êÊñá‰ª∂
 set(ALL_SOURCES
     ${RECEPTOR_CORE_SOURCES}
     ${RECEPTOR_EVENT_SOURCES}
     ${RECEPTOR_EVENT_MODULE_SOURCES}
     ${RECEPTOR_HTTP_SOURCES}
-    ${RECEPTOR_OS_SOURCES}
+    ${RECEPTOR_OS_PLATFORM_SOURCES}
 )
 
-# ¥”‘¥Œƒº˛÷–≈≈≥˝≤ªºÊ»›µƒŒƒº˛
-if(WIN32)
-    # Windows ≈≈≥˝ Unix ◊®”√Œƒº˛
-    list(FILTER ALL_SOURCES EXCLUDE REGEX ".*receptor_event_epoll\\.c$")
-    list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/unix/.*")
-else()
-    # Unix ≈≈≥˝ Windows ◊®”√Œƒº˛  
-    list(FILTER ALL_SOURCES EXCLUDE REGEX ".*receptor_event_iocp\\.c$")
-    list(FILTER ALL_SOURCES EXCLUDE REGEX ".*/win32/.*")
-endif()
 
-# ≈‰÷√Õ∑Œƒº˛…Ë÷√
-set(receptor_VERSION_MAJOR 1)
-set(receptor_VERSION_MINOR 0)
-set(receptor_VERSION_PATCH 0)
-set(receptor_VERSION "${receptor_VERSION_MAJOR}.${receptor_VERSION_MINOR}.${receptor_VERSION_PATCH}")
-
-# ∆ΩÃ®ºÏ≤‚
-if(WIN32)
-    set(RECEPTOR_PLATFORM_WIN32 1)
-    set(RECEPTOR_HAVE_IOCP 1)
-    set(RECEPTOR_HAVE_SELECT 1)
-    message(STATUS "Building for Windows platform")
-else()
-    set(RECEPTOR_PLATFORM_UNIX 1)
-    set(RECEPTOR_HAVE_SELECT 1)
-    message(STATUS "Building for Unix platform")
-endif()
-
-# ππΩ®≈‰÷√
+# ÊûÑÂª∫Â∫ì
 if(RECEPTOR_BUILD_SHARED)
-    set(RECEPTOR_BUILD_DLL 1)
-endif()
+    add_library(receptor SHARED ${ALL_SOURCES})
 
-# ¥¥Ω®ππΩ®ƒø¬º
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/src/include/receptor)
-
-# ≈‰÷√Õ∑Œƒº˛
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include/receptor_config.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/src/include/receptor_config.h
-    @ONLY
-)
-
-# ∞¸∫¨ππΩ®ƒø¬º∫Õ‘¥¬Îƒø¬º
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include
-    ${CMAKE_CURRENT_BINARY_DIR}/src/include
-)
-
-# ∏˘æ›≈‰÷√—°‘ÒππΩ®¿‡–Õ
-if(RECEPTOR_BUILD_STATIC)
+    if(WIN32)
+        # ÂêØÁî®Ëá™Âä®ÂØºÂá∫ÊâÄÊúâÁ¨¶Âè∑
+        set_target_properties(receptor PROPERTIES
+            WINDOWS_EXPORT_ALL_SYMBOLS ON
+        )
+        
+        # ÊàñËÄÖÊâãÂä®ËÆæÁΩÆÂØºÂá∫ÂÆè
+        target_compile_definitions(receptor PRIVATE 
+            RECEPTOR_DLL_EXPORT
+        )
+    endif()
+    
+    message(STATUS "Building receptor as shared library")
+elseif(RECEPTOR_BUILD_STATIC)
     add_library(receptor STATIC ${ALL_SOURCES})
     message(STATUS "Building receptor as static library")
-    
-    # …Ë÷√æ≤Ã¨ø‚ Ù–‘
-    set_target_properties(receptor PROPERTIES
-        OUTPUT_NAME "receptor"
-        ARCHIVE_OUTPUT_NAME "receptor"
-    )
-    
-    # æ≤Ã¨ø‚±‡“Î∂®“Â
-    target_compile_definitions(receptor PRIVATE
-        RECEPTOR_VERSION="${receptor_VERSION}"
-        _CRT_SECURE_NO_WARNINGS  # Ω˚”√∞≤»´æØ∏Ê
-    )
-    
-    # ∆ΩÃ®Ãÿ∂®∂®“Â
-    if(WIN32)
-        target_compile_definitions(receptor PRIVATE
-            RECEPTOR_PLATFORM_WIN32=1
-        )
-    else()
-        target_compile_definitions(receptor PRIVATE
-            RECEPTOR_PLATFORM_UNIX=1
-        )
-    endif()
-    
-elseif(RECEPTOR_BUILD_SHARED)
-    add_library(receptor SHARED ${ALL_SOURCES})
-    message(STATUS "Building receptor as shared library")
-    
-    # …Ë÷√π≤œÌø‚ Ù–‘
-    set_target_properties(receptor PROPERTIES
-        OUTPUT_NAME "receptor"
-        LIBRARY_OUTPUT_NAME "receptor"
-        VERSION ${receptor_VERSION}
-        SOVERSION 1
-    )
-    
-    # π≤œÌø‚±‡“Î∂®“Â
-    target_compile_definitions(receptor PRIVATE
-        RECEPTOR_VERSION="${receptor_VERSION}"
-        RECEPTOR_BUILD_DLL=1
-        _CRT_SECURE_NO_WARNINGS
-    )
-    
-    # ∆ΩÃ®Ãÿ∂®∂®“Â
-    if(WIN32)
-        target_compile_definitions(receptor PRIVATE
-            RECEPTOR_PLATFORM_WIN32=1
-        )
-    else()
-        target_compile_definitions(receptor PRIVATE
-            RECEPTOR_PLATFORM_UNIX=1
-        )
-    endif()
+else()
+    message(FATAL_ERROR "Please select either SHARED or STATIC library type")
 endif()
 
-# ±‡“Î—°œÓ
-if(MSVC)
-    target_compile_options(receptor PRIVATE /W4)
-    
-    # Ω˚”√Ãÿ∂®æØ∏Ê
-    target_compile_options(receptor PRIVATE 
-        /wd4996  # ∞≤»´æØ∏Ê
-        /wd4204  # ∑«±Í◊º¿©’πæØ∏Ê
-        /wd4100  # Œ¥“˝”√–Œ≤ŒæØ∏Ê
-    )
-    
-elseif(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(receptor PRIVATE 
-        -Wall 
-        -Wextra
-        -Wno-unused-parameter  # ∫ˆ¬‘Œ¥ π”√≤Œ ˝æØ∏Ê
-    )
-    
-    # Œª÷√Œﬁπÿ¥˙¬Î£®π≤œÌø‚–Ë“™£©
-    if(RECEPTOR_BUILD_SHARED)
-        target_compile_options(receptor PRIVATE -fPIC)
-    endif()
-endif()
-
-# Windows ¡¥Ω”ø‚
-if(WIN32)
-    target_link_libraries(receptor 
-        ws2_32     # Winsock
-        advapi32   # ◊¢≤·±Ìµ»
-    )
-endif()
-
-# ∞≤◊∞≈‰÷√
-install(TARGETS receptor
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+# ÂåÖÂê´ÁõÆÂΩï
+target_include_directories(receptor PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/event
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/http
+    ${CMAKE_CURRENT_SOURCE_DIR}/os/win32
 )
 
-install(DIRECTORY src/include/receptor DESTINATION include)
+target_link_libraries(receptor PRIVATE ${WS2_32_LIBRARY})
 
-# µº≥ˆƒø±Íπ©∏∏œÓƒø π”√
-export(TARGETS receptor FILE "${CMAKE_CURRENT_BINARY_DIR}/receptor-targets.cmake")
 
-# ø…—°£∫¥¥Ω®ø…÷¥––Œƒº˛ƒø±Í
+# ÂèØÊâßË°åÊñá‰ª∂ÔºàÂèØÈÄâÔºâ
 if(RECEPTOR_BUILD_EXECUTABLE)
-    # ≤È’“ main.c Œƒº˛
-    file(GLOB RECEPTOR_MAIN_SOURCES 
-        "src/core/main.c"
-    )
-    
-    if(RECEPTOR_MAIN_SOURCES)
-        add_executable(receptor_app ${RECEPTOR_MAIN_SOURCES})
-        target_link_libraries(receptor_app receptor)
-        
-        set_target_properties(receptor_app PROPERTIES
-            OUTPUT_NAME "receptor_app"
-            RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-        )
-        
-        message(STATUS "Building receptor executable: receptor_app")
-    else()
-        message(WARNING "main.c not found, skipping executable build")
-    endif()
+    add_executable(receptor_test tests/main.c)
+    target_link_libraries(receptor_test PUBLIC receptor)
+    message(STATUS "Building test executable")
 endif()
-
-# ◊¥Ã¨–≈œ¢
-message(STATUS "receptor sources found: ${ALL_SOURCES}")
-message(STATUS "receptor configured as library subproject")

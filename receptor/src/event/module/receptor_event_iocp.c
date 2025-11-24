@@ -1,10 +1,11 @@
-#include "receptor_event.h"
+#include <receptor/def.h>
+#include <receptor_event.h>
 
 #ifdef _WIN32
 
 #include <windows.h>
 
-/* ==================== IOCP 事件模块实现 ==================== */
+/* ==================== IOCP 浜嬩欢妯″潡瀹炵幇 ==================== */
 
 static HANDLE iocp_port = NULL;
 
@@ -21,7 +22,7 @@ receptor_iocp_init(void)
 static receptor_int_t
 receptor_iocp_add_event(receptor_event_t *ev, receptor_int_t event, receptor_uint_t flags)
 {
-	/* IOCP 实现 */
+	/* IOCP 瀹炵幇 */
 	(void)ev;
 	(void)event;
 	(void)flags;
@@ -66,7 +67,7 @@ receptor_iocp_done(void)
 	}
 }
 
-/* ==================== IOCP 事件操作结构 ==================== */
+/* ==================== IOCP 浜嬩欢鎿嶄綔缁撴瀯 ==================== */
 
 static const receptor_event_actions_t receptor_iocp_actions = {
 	receptor_iocp_add_event,
@@ -78,7 +79,7 @@ static const receptor_event_actions_t receptor_iocp_actions = {
 	receptor_iocp_done
 };
 
-/* ==================== IOCP 模块注册函数 ==================== */
+/* ==================== IOCP 妯″潡娉ㄥ唽鍑芥暟 ==================== */
 
 RECEPTOR_API void
 receptor_event_iocp_register(void)

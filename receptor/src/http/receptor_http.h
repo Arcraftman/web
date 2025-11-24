@@ -1,7 +1,6 @@
 #ifndef _RECEPTOR_HTTP_H_
 #define _RECEPTOR_HTTP_H_
 
-#include "../include/receptor_defs.h"
 
 typedef struct receptor_http_request_s     receptor_http_request_t;
 typedef struct receptor_http_response_s    receptor_http_response_t;
@@ -24,7 +23,7 @@ struct receptor_http_response_s {
 	receptor_str_t           body;
 };
 
-/* HTTPģ��ӿ� */
+/* HTTP模块接口 */
 typedef struct {
 	receptor_int_t(*preconfiguration)(void);
 	receptor_int_t(*postconfiguration)(void);

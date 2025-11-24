@@ -1,3 +1,5 @@
 .vs
+.vscode
 Win32.sln
 build/
+CMakeSettings.json

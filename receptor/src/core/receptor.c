@@ -1,13 +1,14 @@
+#include <receptor/def.h>
 #include "receptor.h"
-#include "receptor_string.h"
-#include "receptor_palloc.h"
 #include "receptor_array.h"
 #include "receptor_list.h"
+#include "receptor_palloc.h"
+#include "receptor_string.h"
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 
 #ifdef _WIN32
 #include <winsock2.h>
@@ -17,7 +18,7 @@
 #include <unistd.h>
 #endif
 
-/* ==================== ÄÚ²¿Êı¾İ½á¹¹ ==================== */
+/* ==================== å†…éƒ¨æ•°æ®ç»“æ„ ==================== */
 
 struct receptor_conf_ctx_s {
 	receptor_pool_t*        pool;
@@ -51,7 +52,7 @@ struct receptor_cycle_s {
 	void*                   stream_ctx;
 };
 
-/* ==================== È«¾Ö±äÁ¿ ==================== */
+/* ==================== å…¨å±€å˜é‡ ==================== */
 
 static receptor_uint_t      receptor_initialized = 0;
 static receptor_pool_t*     receptor_global_pool = NULL;
@@ -59,39 +60,39 @@ static receptor_array_t*    receptor_modules = NULL;
 static char                 receptor_error_buf[RECEPTOR_MAX_ERROR_STR];
 static receptor_int_t       receptor_last_error = 0;
 
-/* ÄÚÖÃºËĞÄÄ£¿éÉùÃ÷ */
+/* å†…ç½®æ ¸å¿ƒæ¨¡å—å£°æ˜ */
 extern receptor_module_t receptor_core_module;
 extern receptor_module_t receptor_event_module;
 extern receptor_module_t receptor_http_module;
 extern receptor_module_t receptor_stream_module;
 
-/* ÄÚÖÃÄ£¿éÁĞ±í - ĞŞ¸´£ºÊ¹ÓÃÖ¸ÕëÊı×é */
+/* å†…ç½®æ¨¡å—åˆ—è¡¨ - ä¿®å¤ï¼šä½¿ç”¨æŒ‡é’ˆæ•°ç»„ */
 static receptor_module_t* receptor_builtin_modules[] = {
 	&receptor_core_module,
 	&receptor_event_module,
 	&receptor_http_module,
 	&receptor_stream_module,
-	NULL  /* ½áÊø±ê¼Ç */
+	NULL  /* ç»“æŸæ ‡è®° */
 };
 
-/* ==================== ÄÚ²¿º¯ÊıÉùÃ÷ ==================== */
+/* ==================== å†…éƒ¨å‡½æ•°å£°æ˜ ==================== */
 
 static receptor_int_t receptor_internal_init(void);
 static void receptor_internal_cleanup(void);
 static receptor_int_t receptor_init_builtin_modules(void);
 static receptor_int_t receptor_init_global_pool(void);
 
-/* ==================== ÄÚÖÃÄ£¿é¶¨Òå ==================== */
+/* ==================== å†…ç½®æ¨¡å—å®šä¹‰ ==================== */
 
-/* ºËĞÄÄ£¿é */
+/* æ ¸å¿ƒæ¨¡å— */
 static receptor_int_t receptor_core_init(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("Core module initialized\n");
 	return RECEPTOR_OK;
 }
 
 static receptor_int_t receptor_core_exit(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("Core module exited\n");
 	return RECEPTOR_OK;
 }
@@ -103,15 +104,15 @@ receptor_module_t receptor_core_module = {
 	receptor_core_exit
 };
 
-/* ÊÂ¼şÄ£¿é */
+/* äº‹ä»¶æ¨¡å— */
 static receptor_int_t receptor_event_init(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("Event module initialized\n");
 	return RECEPTOR_OK;
 }
 
 static receptor_int_t receptor_event_exit(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("Event module exited\n");
 	return RECEPTOR_OK;
 }
@@ -123,15 +124,15 @@ receptor_module_t receptor_event_module = {
 	receptor_event_exit
 };
 
-/* HTTPÄ£¿é */
+/* HTTPæ¨¡å— */
 static receptor_int_t receptor_http_init(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("HTTP module initialized\n");
 	return RECEPTOR_OK;
 }
 
 static receptor_int_t receptor_http_exit(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("HTTP module exited\n");
 	return RECEPTOR_OK;
 }
@@ -143,15 +144,15 @@ receptor_module_t receptor_http_module = {
 	receptor_http_exit
 };
 
-/* Á÷Ä£¿é */
+/* æµæ¨¡å— */
 static receptor_int_t receptor_stream_init(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("Stream module initialized\n");
 	return RECEPTOR_OK;
 }
 
 static receptor_int_t receptor_stream_exit(receptor_cycle_t* cycle) {
-	(void)cycle;  // ±ÜÃâÎ´Ê¹ÓÃ²ÎÊı¾¯¸æ
+	(void)cycle;  // é¿å…æœªä½¿ç”¨å‚æ•°è­¦å‘Š
 	printf("Stream module exited\n");
 	return RECEPTOR_OK;
 }
@@ -163,7 +164,7 @@ receptor_module_t receptor_stream_module = {
 	receptor_stream_exit
 };
 
-/* ==================== ºËĞÄAPIÊµÏÖ ==================== */
+/* ==================== æ ¸å¿ƒAPIå®ç° ==================== */
 
 RECEPTOR_API receptor_int_t
 receptor_init(void)
@@ -172,11 +173,11 @@ receptor_init(void)
 		return RECEPTOR_OK;
 	}
 
-	/* ³õÊ¼»¯´íÎó»º³åÇø */
+	/* åˆå§‹åŒ–é”™è¯¯ç¼“å†²åŒº */
 	memset(receptor_error_buf, 0, sizeof(receptor_error_buf));
 	receptor_last_error = 0;
 
-	/* Windows Winsock ³õÊ¼»¯ */
+	/* Windows Winsock åˆå§‹åŒ– */
 #ifdef _WIN32
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
@@ -185,20 +186,20 @@ receptor_init(void)
 	}
 #endif
 
-	/* ³õÊ¼»¯È«¾ÖÄÚ´æ³Ø */
+	/* åˆå§‹åŒ–å…¨å±€å†…å­˜æ±  */
 	if (receptor_init_global_pool() != RECEPTOR_OK) {
 		receptor_set_error("Failed to initialize global memory pool");
 		return RECEPTOR_ERROR;
 	}
 
-	/* ³õÊ¼»¯Ä£¿éÏµÍ³ */
+	/* åˆå§‹åŒ–æ¨¡å—ç³»ç»Ÿ */
 	if (receptor_init_builtin_modules() != RECEPTOR_OK) {
 		receptor_set_error("Failed to initialize builtin modules");
 		receptor_internal_cleanup();
 		return RECEPTOR_ERROR;
 	}
 
-	/* ÄÚ²¿³õÊ¼»¯ */
+	/* å†…éƒ¨åˆå§‹åŒ– */
 	if (receptor_internal_init() != RECEPTOR_OK) {
 		receptor_set_error("Internal initialization failed");
 		receptor_internal_cleanup();
@@ -230,11 +231,11 @@ receptor_version(void)
 RECEPTOR_API receptor_uint_t
 receptor_version_number(void)
 {
-	/* °æ±¾ºÅ¸ñÊ½: Ö÷°æ±¾ << 16 | ´Î°æ±¾ << 8 | ĞŞ¶©°æ±¾ */
+	/* ç‰ˆæœ¬å·æ ¼å¼: ä¸»ç‰ˆæœ¬ << 16 | æ¬¡ç‰ˆæœ¬ << 8 | ä¿®è®¢ç‰ˆæœ¬ */
 	return (1 << 16) | (0 << 8) | 0;
 }
 
-/* ==================== ÅäÖÃÏµÍ³ÊµÏÖ ==================== */
+/* ==================== é…ç½®ç³»ç»Ÿå®ç° ==================== */
 
 RECEPTOR_API receptor_conf_ctx_t*
 receptor_create_conf_ctx(void)
@@ -262,7 +263,7 @@ receptor_create_conf_ctx(void)
 
 	ctx->pool = pool;
 
-	/* ³õÊ¼»¯Ä£¿éÊı×é */
+	/* åˆå§‹åŒ–æ¨¡å—æ•°ç»„ */
 	ctx->modules = receptor_array_create(pool, 10, sizeof(receptor_module_t*));
 	if (ctx->modules == NULL) {
 		receptor_destroy_pool(pool);
@@ -270,7 +271,7 @@ receptor_create_conf_ctx(void)
 		return NULL;
 	}
 
-	/* ³õÊ¼»¯ÅäÖÃÁĞ±í */
+	/* åˆå§‹åŒ–é…ç½®åˆ—è¡¨ */
 	ctx->configurations = receptor_list_create(pool, 10);
 	if (ctx->configurations == NULL) {
 		receptor_destroy_pool(pool);
@@ -311,18 +312,18 @@ receptor_load_conf(receptor_conf_ctx_t* ctx, const char* filename)
 		line.data = (u_char*)buffer;
 		line.len = strlen(buffer);
 
-		/* ÒÆ³ı»»ĞĞ·û */
+		/* ç§»é™¤æ¢è¡Œç¬¦ */
 		if (line.len > 0 && line.data[line.len - 1] == '\n') {
 			line.data[--line.len] = '\0';
 		}
 
-		/* Ìø¹ı¿ÕĞĞºÍ×¢ÊÍ */
+		/* è·³è¿‡ç©ºè¡Œå’Œæ³¨é‡Š */
 		if (line.len == 0 || line.data[0] == '#') {
 			continue;
 		}
 
-		/* ÕâÀïÌí¼ÓÅäÖÃ½âÎöÂß¼­ */
-		/* ÔİÊ±Ö»ÊÇ¼òµ¥´òÓ¡ */
+		/* è¿™é‡Œæ·»åŠ é…ç½®è§£æé€»è¾‘ */
+		/* æš‚æ—¶åªæ˜¯ç®€å•æ‰“å° */
 		printf("Config: %.*s\n", (int)line.len, line.data);
 	}
 
@@ -338,7 +339,7 @@ receptor_parse_conf(receptor_conf_ctx_t* ctx, const char* config_str)
 		return RECEPTOR_ERROR;
 	}
 
-	/* ¼òµ¥µÄÅäÖÃ×Ö·û´®½âÎö */
+	/* ç®€å•çš„é…ç½®å­—ç¬¦ä¸²è§£æ */
 	receptor_str_t config;
 	config.data = (u_char*)config_str;
 	config.len = strlen(config_str);
@@ -348,7 +349,7 @@ receptor_parse_conf(receptor_conf_ctx_t* ctx, const char* config_str)
 	return RECEPTOR_OK;
 }
 
-/* ==================== ÖÜÆÚ¹ÜÀíÊµÏÖ ==================== */
+/* ==================== å‘¨æœŸç®¡ç†å®ç° ==================== */
 
 RECEPTOR_API receptor_cycle_t*
 receptor_init_cycle(receptor_conf_ctx_t* conf_ctx)
@@ -380,7 +381,7 @@ receptor_init_cycle(receptor_conf_ctx_t* conf_ctx)
 	cycle->terminate = 0;
 	cycle->quit = 0;
 
-	/* ³õÊ¼»¯ºËĞÄÅäÖÃ */
+	/* åˆå§‹åŒ–æ ¸å¿ƒé…ç½® */
 	cycle->conf = receptor_pcalloc(pool, sizeof(receptor_core_conf_t));
 	if (cycle->conf == NULL) {
 		receptor_destroy_pool(pool);
@@ -388,7 +389,7 @@ receptor_init_cycle(receptor_conf_ctx_t* conf_ctx)
 		return NULL;
 	}
 
-	/* ÉèÖÃÄ¬ÈÏÖµ */
+	/* è®¾ç½®é»˜è®¤å€¼ */
 	cycle->conf->worker_processes = 1;
 	cycle->conf->daemon = 0;
 	cycle->conf->master = 0;
@@ -416,7 +417,7 @@ receptor_get_core_conf(receptor_cycle_t* cycle)
 	return cycle->conf;
 }
 
-/* ==================== Ä£¿é¹ÜÀíÊµÏÖ ==================== */
+/* ==================== æ¨¡å—ç®¡ç†å®ç° ==================== */
 
 RECEPTOR_API receptor_int_t
 receptor_register_module(receptor_module_t* module)
@@ -431,7 +432,7 @@ receptor_register_module(receptor_module_t* module)
 		return RECEPTOR_ERROR;
 	}
 
-	/* ¼ì²éÊÇ·ñÒÑ×¢²á */
+	/* æ£€æŸ¥æ˜¯å¦å·²æ³¨å†Œ */
 	receptor_uint_t i;
 	receptor_module_t** mods = (receptor_module_t**)receptor_modules->elts;
 
@@ -442,7 +443,7 @@ receptor_register_module(receptor_module_t* module)
 		}
 	}
 
-	/* ×¢²áÄ£¿é */
+	/* æ³¨å†Œæ¨¡å— */
 	receptor_module_t** slot = (receptor_module_t**)receptor_array_push(receptor_modules);
 	if (slot == NULL) {
 		receptor_set_error("Failed to register module: %s", module->name);
@@ -508,7 +509,7 @@ receptor_exit_modules(receptor_cycle_t* cycle)
 	receptor_module_t** mods = (receptor_module_t**)receptor_modules->elts;
 	receptor_int_t rc;
 
-	/* ·´ÏòÍË³öÄ£¿é */
+	/* åå‘é€€å‡ºæ¨¡å— */
 	for (i = receptor_modules->nelts; i > 0; i--) {
 		if (mods[i - 1]->exit_module) {
 			rc = mods[i - 1]->exit_module(cycle);
@@ -521,7 +522,7 @@ receptor_exit_modules(receptor_cycle_t* cycle)
 	return RECEPTOR_OK;
 }
 
-/* ==================== ÔËĞĞÊ±¿ØÖÆÊµÏÖ ==================== */
+/* ==================== è¿è¡Œæ—¶æ§åˆ¶å®ç° ==================== */
 
 RECEPTOR_API receptor_int_t
 receptor_start(receptor_cycle_t* cycle)
@@ -536,7 +537,7 @@ receptor_start(receptor_cycle_t* cycle)
 		return RECEPTOR_ERROR;
 	}
 
-	/* ³õÊ¼»¯ËùÓĞÄ£¿é */
+	/* åˆå§‹åŒ–æ‰€æœ‰æ¨¡å— */
 	if (receptor_init_modules(cycle) != RECEPTOR_OK) {
 		receptor_set_error("Failed to initialize modules");
 		return RECEPTOR_ERROR;
@@ -566,7 +567,7 @@ receptor_stop(receptor_cycle_t* cycle)
 	cycle->running = 0;
 	cycle->terminate = 1;
 
-	/* ÍË³öËùÓĞÄ£¿é */
+	/* é€€å‡ºæ‰€æœ‰æ¨¡å— */
 	receptor_exit_modules(cycle);
 
 	printf("Receptor stopped\n");
@@ -583,12 +584,12 @@ receptor_reload(receptor_cycle_t* cycle)
 
 	printf("Reloading configuration...\n");
 
-	/* ÕâÀïÊµÏÖÅäÖÃÖØÔØÂß¼­ */
+	/* è¿™é‡Œå®ç°é…ç½®é‡è½½é€»è¾‘ */
 
 	return RECEPTOR_OK;
 }
 
-/* ==================== ¹¤¾ßº¯ÊıÊµÏÖ ==================== */
+/* ==================== å·¥å…·å‡½æ•°å®ç° ==================== */
 
 RECEPTOR_API const char*
 receptor_get_error(void)
@@ -617,23 +618,23 @@ receptor_get_last_error(void)
 	return receptor_last_error;
 }
 
-/* ==================== ĞÅºÅ´¦ÀíÊµÏÖ ==================== */
+/* ==================== ä¿¡å·å¤„ç†å®ç° ==================== */
 
 RECEPTOR_API receptor_int_t
 receptor_init_signals(void)
 {
 #ifdef _WIN32
-	/* Windows ĞÅºÅ´¦Àí */
+	/* Windows ä¿¡å·å¤„ç† */
 	SetConsoleCtrlHandler(NULL, FALSE);
 	return RECEPTOR_OK;
 #else
-	/* Unix ĞÅºÅ´¦Àí */
+	/* Unix ä¿¡å·å¤„ç† */
 	struct sigaction sa;
 	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 
-	/* ºöÂÔÄ³Ğ©ĞÅºÅ */
+	/* å¿½ç•¥æŸäº›ä¿¡å· */
 	sigaction(SIGPIPE, &sa, NULL);
 	return RECEPTOR_OK;
 #endif
@@ -642,18 +643,18 @@ receptor_init_signals(void)
 RECEPTOR_API receptor_int_t
 receptor_add_signal(int signum, void(*handler)(int))
 {
-	/* ÔİÊ±²»ÊµÏÖ¾ßÌåĞÅºÅ´¦Àí */
+	/* æš‚æ—¶ä¸å®ç°å…·ä½“ä¿¡å·å¤„ç† */
 	(void)signum;
 	(void)handler;
 	return RECEPTOR_OK;
 }
 
-/* ==================== ÄÚ²¿º¯ÊıÊµÏÖ ==================== */
+/* ==================== å†…éƒ¨å‡½æ•°å®ç° ==================== */
 
 static receptor_int_t
 receptor_internal_init(void)
 {
-	/* ³õÊ¼»¯ĞÅºÅ´¦Àí */
+	/* åˆå§‹åŒ–ä¿¡å·å¤„ç† */
 	if (receptor_init_signals() != RECEPTOR_OK) {
 		return RECEPTOR_ERROR;
 	}
@@ -664,19 +665,19 @@ receptor_internal_init(void)
 static void
 receptor_internal_cleanup(void)
 {
-	/* ÇåÀíÈ«¾ÖÄÚ´æ³Ø */
+	/* æ¸…ç†å…¨å±€å†…å­˜æ±  */
 	if (receptor_global_pool) {
 		receptor_destroy_pool(receptor_global_pool);
 		receptor_global_pool = NULL;
 	}
 
-	/* ÇåÀíÄ£¿éÊı×é */
+	/* æ¸…ç†æ¨¡å—æ•°ç»„ */
 	if (receptor_modules) {
 		receptor_array_destroy(receptor_modules);
 		receptor_modules = NULL;
 	}
 
-	/* Windows ÇåÀí */
+	/* Windows æ¸…ç† */
 #ifdef _WIN32
 	WSACleanup();
 #endif
@@ -690,7 +691,7 @@ receptor_init_global_pool(void)
 		return RECEPTOR_ERROR;
 	}
 
-	/* ³õÊ¼»¯È«¾ÖÄ£¿éÊı×é */
+	/* åˆå§‹åŒ–å…¨å±€æ¨¡å—æ•°ç»„ */
 	receptor_modules = receptor_array_create(receptor_global_pool, 10, sizeof(receptor_module_t*));
 	if (receptor_modules == NULL) {
 		receptor_destroy_pool(receptor_global_pool);
@@ -708,9 +709,9 @@ receptor_init_builtin_modules(void)
 	receptor_uint_t i;
 
 	for (i = 0; receptor_builtin_modules[i] != NULL; i++) {
-		mod = &receptor_builtin_modules[i];  // ĞŞ¸´£ºÈ¡µØÖ·
+		mod = &receptor_builtin_modules[i];  // ä¿®å¤ï¼šå–åœ°å€
 
-		if (receptor_register_module(*mod) != RECEPTOR_OK) {  // ĞŞ¸´£º½âÒıÓÃ
+		if (receptor_register_module(*mod) != RECEPTOR_OK) {  // ä¿®å¤ï¼šè§£å¼•ç”¨
 			receptor_set_error("Failed to register builtin module: %s", (*mod)->name);
 			return RECEPTOR_ERROR;
 		}

@@ -1,24 +1,24 @@
 #ifndef _RECEPTOR_OS_WIN32_H_
 #define _RECEPTOR_OS_WIN32_H_
 
-#include "../../include/receptor_defs.h"
+#include "receptor/def.h"
 
 #ifdef _WIN32
 
-/* Windows ÌØ¶¨ÏµÍ³µ÷ÓÃ */
+/* Windows ç‰¹å®šç³»ç»Ÿè°ƒç”¨ */
 RECEPTOR_API receptor_int_t receptor_win32_get_last_error(void);
 RECEPTOR_API void receptor_win32_set_last_error(receptor_int_t error);
 RECEPTOR_API const char* receptor_win32_error_string(receptor_int_t error);
 
-/* ½ø³ÌºÍÏß³Ì */
+/* è¿›ç¨‹å’Œçº¿ç¨‹ */
 RECEPTOR_API HANDLE receptor_win32_create_thread(LPTHREAD_START_ROUTINE start, LPVOID param);
 RECEPTOR_API void receptor_win32_close_handle(HANDLE handle);
 
-/* ÏµÍ³Ê±¼ä */
+/* ç³»ç»Ÿæ—¶é—´ */
 RECEPTOR_API receptor_int_t receptor_win32_get_system_time(void);
 RECEPTOR_API receptor_int_t receptor_win32_sleep(receptor_int_t milliseconds);
 
-/* ½ø³ÌĞÅÏ¢ */
+/* è¿›ç¨‹ä¿¡æ¯ */
 RECEPTOR_API receptor_int_t receptor_win32_get_process_id(void);
 RECEPTOR_API receptor_int_t receptor_win32_is_debugger_present(void);
 

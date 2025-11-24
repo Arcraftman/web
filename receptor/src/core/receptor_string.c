@@ -1,3 +1,4 @@
+#include <receptor/def.h>
 #include "receptor_string.h"
 #include <ctype.h>
 

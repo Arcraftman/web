@@ -1,16 +1,12 @@
 #ifndef _RECEPTOR_HTTP_REQUEST_H_
 #define _RECEPTOR_HTTP_REQUEST_H_
 
-#include "../receptor_defs.h"
-#include "../core/receptor_string.h"
-#include "../core/receptor_list.h"
-#include "../core/receptor_table.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	/* ==================== Ç°ÏòÉùÃ÷ ==================== */
+	/* ==================== å‰å‘å£°æ˜ ==================== */
 
 	typedef struct receptor_http_request_s         receptor_http_request_t;
 	typedef struct receptor_http_response_s        receptor_http_response_t;
@@ -18,9 +14,9 @@ extern "C" {
 	typedef struct receptor_http_header_s          receptor_http_header_t;
 	typedef struct receptor_http_chunk_s           receptor_http_chunk_t;
 
-	/* ==================== ³£Á¿¶¨Òå ==================== */
+	/* ==================== å¸¸é‡å®šä¹‰ ==================== */
 
-	/* HTTP ·½·¨ */
+	/* HTTP æ–¹æ³• */
 #define RECEPTOR_HTTP_UNKNOWN       0x0000
 #define RECEPTOR_HTTP_GET           0x0001
 #define RECEPTOR_HTTP_HEAD          0x0002
@@ -32,13 +28,13 @@ extern "C" {
 #define RECEPTOR_HTTP_TRACE         0x0080
 #define RECEPTOR_HTTP_CONNECT       0x0100
 
-/* HTTP °æ±¾ */
+/* HTTP ç‰ˆæœ¬ */
 #define RECEPTOR_HTTP_VERSION_9     9
 #define RECEPTOR_HTTP_VERSION_10    1000
 #define RECEPTOR_HTTP_VERSION_11    1001
 #define RECEPTOR_HTTP_VERSION_20    2000
 
-/* HTTP ×´Ì¬Âë */
+/* HTTP çŠ¶æ€ç  */
 #define RECEPTOR_HTTP_CONTINUE                      100
 #define RECEPTOR_HTTP_SWITCHING_PROTOCOLS           101
 #define RECEPTOR_HTTP_PROCESSING                    102
@@ -71,459 +67,459 @@ extern "C" {
 #define RECEPTOR_HTTP_SERVICE_UNAVAILABLE           503
 #define RECEPTOR_HTTP_GATEWAY_TIMEOUT               504
 
-/* »º³åÇø´óĞ¡ */
+/* ç¼“å†²åŒºå¤§å° */
 #define RECEPTOR_HTTP_MAX_HEADER_SIZE       8192
 #define RECEPTOR_HTTP_MAX_URI_SIZE          4096
 #define RECEPTOR_HTTP_MAX_HEADER_FIELD_SIZE 8192
 #define RECEPTOR_HTTP_MAX_HEADER_VALUE_SIZE 32768
 
-/* ==================== Êı¾İ½á¹¹ ==================== */
+/* ==================== æ•°æ®ç»“æ„ ==================== */
 
 /**
- * HTTP Í·²¿×Ö¶Î
+ * HTTP å¤´éƒ¨å­—æ®µ
  */
 	struct receptor_http_header_s {
-		receptor_str_t          key;            /* Í·²¿×Ö¶ÎÃû */
-		receptor_str_t          value;          /* Í·²¿×Ö¶ÎÖµ */
-		receptor_list_t         list;           /* Á´±í½Úµã */
+		receptor_str_t          key;            /* å¤´éƒ¨å­—æ®µå */
+		receptor_str_t          value;          /* å¤´éƒ¨å­—æ®µå€¼ */
+		receptor_list_t         list;           /* é“¾è¡¨èŠ‚ç‚¹ */
 	};
 
 	/**
-	 * HTTP ¿éÊı¾İ
+	 * HTTP å—æ•°æ®
 	 */
 	struct receptor_http_chunk_s {
-		receptor_str_t          data;           /* ¿éÊı¾İ */
-		size_t                  size;           /* ¿é´óĞ¡ */
-		receptor_http_chunk_t  *next;           /* ÏÂÒ»¸ö¿é */
+		receptor_str_t          data;           /* å—æ•°æ® */
+		size_t                  size;           /* å—å¤§å° */
+		receptor_http_chunk_t  *next;           /* ä¸‹ä¸€ä¸ªå— */
 	};
 
 	/**
-	 * HTTP Á¬½ÓĞÅÏ¢
+	 * HTTP è¿æ¥ä¿¡æ¯
 	 */
 	struct receptor_http_connection_s {
-		receptor_socket_t       fd;             /* Ì×½Ó×ÖÃèÊö·û */
-		receptor_str_t          addr_text;      /* µØÖ·ÎÄ±¾ */
-		receptor_uint_t         ssl : 1;          /* ÊÇ·ñSSLÁ¬½Ó */
-		receptor_uint_t         keepalive : 1;    /* ÊÇ·ñ±£³ÖÁ¬½Ó */
-		receptor_uint_t         reusable : 1;     /* ÊÇ·ñ¿É¸´ÓÃ */
-		void                   *ssl_ctx;        /* SSLÉÏÏÂÎÄ */
+		receptor_socket_t       fd;             /* å¥—æ¥å­—æè¿°ç¬¦ */
+		receptor_str_t          addr_text;      /* åœ°å€æ–‡æœ¬ */
+		receptor_uint_t         ssl : 1;          /* æ˜¯å¦SSLè¿æ¥ */
+		receptor_uint_t         keepalive : 1;    /* æ˜¯å¦ä¿æŒè¿æ¥ */
+		receptor_uint_t         reusable : 1;     /* æ˜¯å¦å¯å¤ç”¨ */
+		void                   *ssl_ctx;        /* SSLä¸Šä¸‹æ–‡ */
 	};
 
 	/**
-	 * HTTP ÏìÓ¦
+	 * HTTP å“åº”
 	 */
 	struct receptor_http_response_s {
-		receptor_http_request_t *request;       /* ¹ØÁªµÄÇëÇó */
+		receptor_http_request_t *request;       /* å…³è”çš„è¯·æ±‚ */
 
-		/* ×´Ì¬ĞĞ */
-		receptor_uint_t         status;         /* ×´Ì¬Âë */
-		receptor_str_t          status_line;    /* ×´Ì¬ĞĞÎÄ±¾ */
+		/* çŠ¶æ€è¡Œ */
+		receptor_uint_t         status;         /* çŠ¶æ€ç  */
+		receptor_str_t          status_line;    /* çŠ¶æ€è¡Œæ–‡æœ¬ */
 
-		/* Í·²¿ */
-		receptor_list_t         headers;        /* ÏìÓ¦Í·²¿ÁĞ±í */
-		receptor_str_t          content_type;   /* ÄÚÈİÀàĞÍ */
-		receptor_str_t          content_encoding; /* ÄÚÈİ±àÂë */
-		receptor_uint_t         content_length; /* ÄÚÈİ³¤¶È */
+		/* å¤´éƒ¨ */
+		receptor_list_t         headers;        /* å“åº”å¤´éƒ¨åˆ—è¡¨ */
+		receptor_str_t          content_type;   /* å†…å®¹ç±»å‹ */
+		receptor_str_t          content_encoding; /* å†…å®¹ç¼–ç  */
+		receptor_uint_t         content_length; /* å†…å®¹é•¿åº¦ */
 
-		/* Ö÷Ìå */
-		receptor_str_t          body;           /* ÏìÓ¦Ìå */
-		receptor_http_chunk_t  *chunks;         /* ¿éÁ´±í */
-		receptor_http_chunk_t  *last_chunk;     /* ×îºóÒ»¸ö¿é */
+		/* ä¸»ä½“ */
+		receptor_str_t          body;           /* å“åº”ä½“ */
+		receptor_http_chunk_t  *chunks;         /* å—é“¾è¡¨ */
+		receptor_http_chunk_t  *last_chunk;     /* æœ€åä¸€ä¸ªå— */
 
-		/* »º³åÇø */
-		receptor_str_t          header_buffer;  /* Í·²¿»º³åÇø */
-		receptor_str_t          body_buffer;    /* Ö÷Ìå»º³åÇø */
+		/* ç¼“å†²åŒº */
+		receptor_str_t          header_buffer;  /* å¤´éƒ¨ç¼“å†²åŒº */
+		receptor_str_t          body_buffer;    /* ä¸»ä½“ç¼“å†²åŒº */
 
-		/* ¿ØÖÆ±êÖ¾ */
-		receptor_uint_t         headers_sent : 1; /* Í·²¿ÊÇ·ñÒÑ·¢ËÍ */
-		receptor_uint_t         chunked : 1;      /* ÊÇ·ñ·Ö¿é´«Êä */
-		receptor_uint_t         gzip : 1;         /* ÊÇ·ñgzipÑ¹Ëõ */
+		/* æ§åˆ¶æ ‡å¿— */
+		receptor_uint_t         headers_sent : 1; /* å¤´éƒ¨æ˜¯å¦å·²å‘é€ */
+		receptor_uint_t         chunked : 1;      /* æ˜¯å¦åˆ†å—ä¼ è¾“ */
+		receptor_uint_t         gzip : 1;         /* æ˜¯å¦gzipå‹ç¼© */
 	};
 
 	/**
-	 * HTTP ÇëÇó
+	 * HTTP è¯·æ±‚
 	 */
 	struct receptor_http_request_s {
-		receptor_pool_t        *pool;           /* ÄÚ´æ³Ø */
-		receptor_http_connection_t *connection; /* Á¬½ÓĞÅÏ¢ */
+		receptor_pool_t        *pool;           /* å†…å­˜æ±  */
+		receptor_http_connection_t *connection; /* è¿æ¥ä¿¡æ¯ */
 
-		/* ÇëÇóĞĞ */
-		receptor_uint_t         method;         /* ÇëÇó·½·¨ */
-		receptor_str_t          method_name;    /* ·½·¨Ãû³Æ */
-		receptor_str_t          uri;            /* ÇëÇóURI */
-		receptor_str_t          args;           /* ²éÑ¯²ÎÊı */
-		receptor_str_t          exten;          /* ÎÄ¼şÀ©Õ¹Ãû */
-		receptor_str_t          unparsed_uri;   /* Î´½âÎöµÄURI */
-		receptor_uint_t         http_version;   /* HTTP°æ±¾ */
+		/* è¯·æ±‚è¡Œ */
+		receptor_uint_t         method;         /* è¯·æ±‚æ–¹æ³• */
+		receptor_str_t          method_name;    /* æ–¹æ³•åç§° */
+		receptor_str_t          uri;            /* è¯·æ±‚URI */
+		receptor_str_t          args;           /* æŸ¥è¯¢å‚æ•° */
+		receptor_str_t          exten;          /* æ–‡ä»¶æ‰©å±•å */
+		receptor_str_t          unparsed_uri;   /* æœªè§£æçš„URI */
+		receptor_uint_t         http_version;   /* HTTPç‰ˆæœ¬ */
 
-		/* Í·²¿ */
-		receptor_list_t         headers_in;     /* ÇëÇóÍ·²¿ */
-		receptor_list_t         headers_out;    /* Êä³öÍ·²¿ */
-		receptor_table_t       *headers_in_hash; /* Í·²¿¹şÏ£±í */
+		/* å¤´éƒ¨ */
+		receptor_list_t         headers_in;     /* è¯·æ±‚å¤´éƒ¨ */
+		receptor_list_t         headers_out;    /* è¾“å‡ºå¤´éƒ¨ */
+		receptor_table_t       *headers_in_hash; /* å¤´éƒ¨å“ˆå¸Œè¡¨ */
 
-		/* Ö÷Ìå */
-		receptor_str_t          request_body;   /* ÇëÇóÌå */
-		receptor_http_chunk_t  *request_chunks; /* ÇëÇó¿éÁ´±í */
-		receptor_uint_t         content_length; /* ÄÚÈİ³¤¶È */
-		receptor_uint_t         content_length_n; /* ÄÚÈİ³¤¶ÈÊıÖµ */
-		receptor_str_t          content_type;   /* ÄÚÈİÀàĞÍ */
+		/* ä¸»ä½“ */
+		receptor_str_t          request_body;   /* è¯·æ±‚ä½“ */
+		receptor_http_chunk_t  *request_chunks; /* è¯·æ±‚å—é“¾è¡¨ */
+		receptor_uint_t         content_length; /* å†…å®¹é•¿åº¦ */
+		receptor_uint_t         content_length_n; /* å†…å®¹é•¿åº¦æ•°å€¼ */
+		receptor_str_t          content_type;   /* å†…å®¹ç±»å‹ */
 
-		/* ÏìÓ¦ */
-		receptor_http_response_t *response;     /* ÏìÓ¦¶ÔÏó */
+		/* å“åº” */
+		receptor_http_response_t *response;     /* å“åº”å¯¹è±¡ */
 
-		/* ×´Ì¬ºÍ¿ØÖÆ */
-		receptor_uint_t         state;          /* ÇëÇó×´Ì¬ */
-		receptor_uint_t         subrequests;    /* ×ÓÇëÇó¼ÆÊı */
-		receptor_uint_t         count : 16;       /* ÒıÓÃ¼ÆÊı */
-		receptor_uint_t         main : 1;         /* ÊÇ·ñÖ÷ÇëÇó */
-	receptor_uint_t         internal:1;     /* ÊÇ·ñÄÚ²¿ÇëÇó */
-	receptor_uint_t         error : 1;        /* ÊÇ·ñ³ö´í */
-	receptor_uint_t         header_sent : 1;  /* Í·²¿ÊÇ·ñÒÑ·¢ËÍ */
-	receptor_uint_t         header_only : 1;  /* ÊÇ·ñÖ»·¢ËÍÍ·²¿ */
+		/* çŠ¶æ€å’Œæ§åˆ¶ */
+		receptor_uint_t         state;          /* è¯·æ±‚çŠ¶æ€ */
+		receptor_uint_t         subrequests;    /* å­è¯·æ±‚è®¡æ•° */
+		receptor_uint_t         count : 16;       /* å¼•ç”¨è®¡æ•° */
+		receptor_uint_t         main : 1;         /* æ˜¯å¦ä¸»è¯·æ±‚ */
+	receptor_uint_t         internal:1;     /* æ˜¯å¦å†…éƒ¨è¯·æ±‚ */
+	receptor_uint_t         error : 1;        /* æ˜¯å¦å‡ºé”™ */
+	receptor_uint_t         header_sent : 1;  /* å¤´éƒ¨æ˜¯å¦å·²å‘é€ */
+	receptor_uint_t         header_only : 1;  /* æ˜¯å¦åªå‘é€å¤´éƒ¨ */
 
-	/* Ê±¼äºÍÍ³¼Æ */
-	receptor_msec_t         start_sec;      /* ¿ªÊ¼Ê±¼ä(Ãë) */
-	receptor_msec_t         start_msec;     /* ¿ªÊ¼Ê±¼ä(ºÁÃë) */
-	receptor_msec_t         header_time;    /* Í·²¿½ÓÊÕÍê³ÉÊ±¼ä */
-	receptor_msec_t         body_time;      /* Ö÷Ìå½ÓÊÕÍê³ÉÊ±¼ä */
+	/* æ—¶é—´å’Œç»Ÿè®¡ */
+	receptor_msec_t         start_sec;      /* å¼€å§‹æ—¶é—´(ç§’) */
+	receptor_msec_t         start_msec;     /* å¼€å§‹æ—¶é—´(æ¯«ç§’) */
+	receptor_msec_t         header_time;    /* å¤´éƒ¨æ¥æ”¶å®Œæˆæ—¶é—´ */
+	receptor_msec_t         body_time;      /* ä¸»ä½“æ¥æ”¶å®Œæˆæ—¶é—´ */
 
-	/* »º³åÇø */
-	receptor_str_t          header_name;    /* µ±Ç°½âÎöµÄÍ·²¿Ãû */
-	receptor_str_t          header_value;   /* µ±Ç°½âÎöµÄÍ·²¿Öµ */
-	receptor_str_t          request_line;   /* ÇëÇóĞĞ»º³åÇø */
+	/* ç¼“å†²åŒº */
+	receptor_str_t          header_name;    /* å½“å‰è§£æçš„å¤´éƒ¨å */
+	receptor_str_t          header_value;   /* å½“å‰è§£æçš„å¤´éƒ¨å€¼ */
+	receptor_str_t          request_line;   /* è¯·æ±‚è¡Œç¼“å†²åŒº */
 
-	/* Ä£¿éÉÏÏÂÎÄ */
-	void                  **ctx;            /* Ä£¿éÉÏÏÂÎÄÊı×é */
-	void                   *main_conf;      /* Ö÷ÅäÖÃ */
-	void                   *srv_conf;       /* ·şÎñÆ÷ÅäÖÃ */
-	void                   *loc_conf;       /* Î»ÖÃÅäÖÃ */
+	/* æ¨¡å—ä¸Šä¸‹æ–‡ */
+	void                  **ctx;            /* æ¨¡å—ä¸Šä¸‹æ–‡æ•°ç»„ */
+	void                   *main_conf;      /* ä¸»é…ç½® */
+	void                   *srv_conf;       /* æœåŠ¡å™¨é…ç½® */
+	void                   *loc_conf;       /* ä½ç½®é…ç½® */
 	};
 
-	/* ==================== Ã¶¾ÙÀàĞÍ ==================== */
+	/* ==================== æšä¸¾ç±»å‹ ==================== */
 
 	/**
-	 * HTTP ÇëÇó½âÎö×´Ì¬
+	 * HTTP è¯·æ±‚è§£æçŠ¶æ€
 	 */
 	typedef enum {
-		RECEPTOR_HTTP_PARSE_REQUEST_LINE = 0,   /* ½âÎöÇëÇóĞĞ */
-		RECEPTOR_HTTP_PARSE_HEADER,             /* ½âÎöÍ·²¿ */
-		RECEPTOR_HTTP_PARSE_BODY,               /* ½âÎöÖ÷Ìå */
-		RECEPTOR_HTTP_PARSE_DONE,               /* ½âÎöÍê³É */
-		RECEPTOR_HTTP_PARSE_ERROR               /* ½âÎö´íÎó */
+		RECEPTOR_HTTP_PARSE_REQUEST_LINE = 0,   /* è§£æè¯·æ±‚è¡Œ */
+		RECEPTOR_HTTP_PARSE_HEADER,             /* è§£æå¤´éƒ¨ */
+		RECEPTOR_HTTP_PARSE_BODY,               /* è§£æä¸»ä½“ */
+		RECEPTOR_HTTP_PARSE_DONE,               /* è§£æå®Œæˆ */
+		RECEPTOR_HTTP_PARSE_ERROR               /* è§£æé”™è¯¯ */
 	} receptor_http_parse_state_t;
 
 	/**
-	 * HTTP ÄÚÈİ±àÂë
+	 * HTTP å†…å®¹ç¼–ç 
 	 */
 	typedef enum {
-		RECEPTOR_HTTP_ENCODING_IDENTITY = 0,    /* ²»±àÂë */
-		RECEPTOR_HTTP_ENCODING_GZIP,            /* GZIPÑ¹Ëõ */
-		RECEPTOR_HTTP_ENCODING_DEFLATE,         /* DEFLATEÑ¹Ëõ */
-		RECEPTOR_HTTP_ENCODING_BR               /* BrotliÑ¹Ëõ */
+		RECEPTOR_HTTP_ENCODING_IDENTITY = 0,    /* ä¸ç¼–ç  */
+		RECEPTOR_HTTP_ENCODING_GZIP,            /* GZIPå‹ç¼© */
+		RECEPTOR_HTTP_ENCODING_DEFLATE,         /* DEFLATEå‹ç¼© */
+		RECEPTOR_HTTP_ENCODING_BR               /* Brotliå‹ç¼© */
 	} receptor_http_content_encoding_t;
 
-	/* ==================== º¯ÊıÉùÃ÷ ==================== */
+	/* ==================== å‡½æ•°å£°æ˜ ==================== */
 
-	/* ==================== ÇëÇó´´½¨ºÍÏú»Ù ==================== */
+	/* ==================== è¯·æ±‚åˆ›å»ºå’Œé”€æ¯ ==================== */
 
 	/**
-	 * @brief ´´½¨HTTPÇëÇó
-	 * @param pool ÄÚ´æ³Ø
-	 * @param connection Á¬½Ó¶ÔÏó
-	 * @return ÇëÇó¶ÔÏóÖ¸Õë
+	 * @brief åˆ›å»ºHTTPè¯·æ±‚
+	 * @param pool å†…å­˜æ± 
+	 * @param connection è¿æ¥å¯¹è±¡
+	 * @return è¯·æ±‚å¯¹è±¡æŒ‡é’ˆ
 	 */
 	RECEPTOR_API receptor_http_request_t*
 		receptor_http_create_request(receptor_pool_t *pool,
 			receptor_http_connection_t *connection);
 
 	/**
-	 * @brief Ïú»ÙHTTPÇëÇó
-	 * @param request ÇëÇó¶ÔÏó
+	 * @brief é”€æ¯HTTPè¯·æ±‚
+	 * @param request è¯·æ±‚å¯¹è±¡
 	 */
 	RECEPTOR_API void
 		receptor_http_destroy_request(receptor_http_request_t *request);
 
 	/**
-	 * @brief ¸´ÖÆHTTPÇëÇó£¨ÓÃÓÚ×ÓÇëÇó£©
-	 * @param pool ÄÚ´æ³Ø
-	 * @param src Ô´ÇëÇó
-	 * @return ĞÂÇëÇó¶ÔÏó
+	 * @brief å¤åˆ¶HTTPè¯·æ±‚ï¼ˆç”¨äºå­è¯·æ±‚ï¼‰
+	 * @param pool å†…å­˜æ± 
+	 * @param src æºè¯·æ±‚
+	 * @return æ–°è¯·æ±‚å¯¹è±¡
 	 */
 	RECEPTOR_API receptor_http_request_t*
 		receptor_http_copy_request(receptor_pool_t *pool,
 			receptor_http_request_t *src);
 
-	/* ==================== ÇëÇó½âÎö ==================== */
+	/* ==================== è¯·æ±‚è§£æ ==================== */
 
 	/**
-	 * @brief ½âÎöHTTPÇëÇó
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param data ÊäÈëÊı¾İ
-	 * @param size Êı¾İ´óĞ¡
-	 * @return ½âÎö×´Ì¬
+	 * @brief è§£æHTTPè¯·æ±‚
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param data è¾“å…¥æ•°æ®
+	 * @param size æ•°æ®å¤§å°
+	 * @return è§£æçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_parse_request(receptor_http_request_t *request,
 			const u_char *data, size_t size);
 
 	/**
-	 * @brief ½âÎöÇëÇóĞĞ
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param data ÇëÇóĞĞÊı¾İ
-	 * @param size Êı¾İ´óĞ¡
-	 * @return ½âÎö×´Ì¬
+	 * @brief è§£æè¯·æ±‚è¡Œ
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param data è¯·æ±‚è¡Œæ•°æ®
+	 * @param size æ•°æ®å¤§å°
+	 * @return è§£æçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_parse_request_line(receptor_http_request_t *request,
 			const u_char *data, size_t size);
 
 	/**
-	 * @brief ½âÎöÇëÇóÍ·²¿
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param data Í·²¿Êı¾İ
-	 * @param size Êı¾İ´óĞ¡
-	 * @return ½âÎö×´Ì¬
+	 * @brief è§£æè¯·æ±‚å¤´éƒ¨
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param data å¤´éƒ¨æ•°æ®
+	 * @param size æ•°æ®å¤§å°
+	 * @return è§£æçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_parse_header(receptor_http_request_t *request,
 			const u_char *data, size_t size);
 
 	/**
-	 * @brief ½âÎöÇëÇóÖ÷Ìå
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param data Ö÷ÌåÊı¾İ
-	 * @param size Êı¾İ´óĞ¡
-	 * @return ½âÎö×´Ì¬
+	 * @brief è§£æè¯·æ±‚ä¸»ä½“
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param data ä¸»ä½“æ•°æ®
+	 * @param size æ•°æ®å¤§å°
+	 * @return è§£æçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_parse_body(receptor_http_request_t *request,
 			const u_char *data, size_t size);
 
-	/* ==================== ÇëÇóĞÅÏ¢»ñÈ¡ ==================== */
+	/* ==================== è¯·æ±‚ä¿¡æ¯è·å– ==================== */
 
 	/**
-	 * @brief »ñÈ¡ÇëÇó·½·¨Ãû³Æ
-	 * @param method ·½·¨Ã¶¾ÙÖµ
-	 * @return ·½·¨Ãû³Æ×Ö·û´®
+	 * @brief è·å–è¯·æ±‚æ–¹æ³•åç§°
+	 * @param method æ–¹æ³•æšä¸¾å€¼
+	 * @return æ–¹æ³•åç§°å­—ç¬¦ä¸²
 	 */
 	RECEPTOR_API const char*
 		receptor_http_get_method_name(receptor_uint_t method);
 
 	/**
-	 * @brief ¸ù¾İÃû³Æ»ñÈ¡ÇëÇó·½·¨
-	 * @param name ·½·¨Ãû³Æ
-	 * @param len Ãû³Æ³¤¶È
-	 * @return ·½·¨Ã¶¾ÙÖµ
+	 * @brief æ ¹æ®åç§°è·å–è¯·æ±‚æ–¹æ³•
+	 * @param name æ–¹æ³•åç§°
+	 * @param len åç§°é•¿åº¦
+	 * @return æ–¹æ³•æšä¸¾å€¼
 	 */
 	RECEPTOR_API receptor_uint_t
 		receptor_http_get_method(const u_char *name, size_t len);
 
 	/**
-	 * @brief »ñÈ¡ÇëÇóÍ·²¿Öµ
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param key Í·²¿×Ö¶ÎÃû
-	 * @return Í·²¿×Ö¶ÎÖµ
+	 * @brief è·å–è¯·æ±‚å¤´éƒ¨å€¼
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param key å¤´éƒ¨å­—æ®µå
+	 * @return å¤´éƒ¨å­—æ®µå€¼
 	 */
 	RECEPTOR_API receptor_str_t*
 		receptor_http_get_header(receptor_http_request_t *request, const char *key);
 
 	/**
-	 * @brief »ñÈ¡²éÑ¯²ÎÊıÖµ
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param key ²ÎÊıÃû
-	 * @return ²ÎÊıÖµ
+	 * @brief è·å–æŸ¥è¯¢å‚æ•°å€¼
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param key å‚æ•°å
+	 * @return å‚æ•°å€¼
 	 */
 	RECEPTOR_API receptor_str_t*
 		receptor_http_get_arg(receptor_http_request_t *request, const char *key);
 
 	/**
-	 * @brief »ñÈ¡¿Í»§¶ËIPµØÖ·
-	 * @param request ÇëÇó¶ÔÏó
-	 * @return IPµØÖ·×Ö·û´®
+	 * @brief è·å–å®¢æˆ·ç«¯IPåœ°å€
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @return IPåœ°å€å­—ç¬¦ä¸²
 	 */
 	RECEPTOR_API receptor_str_t
 		receptor_http_get_client_ip(receptor_http_request_t *request);
 
-	/* ==================== ÇëÇó´¦Àí ==================== */
+	/* ==================== è¯·æ±‚å¤„ç† ==================== */
 
 	/**
-	 * @brief ³õÊ¼»¯ÇëÇó´¦Àí
-	 * @param request ÇëÇó¶ÔÏó
-	 * @return ´¦Àí×´Ì¬
+	 * @brief åˆå§‹åŒ–è¯·æ±‚å¤„ç†
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @return å¤„ç†çŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_init_request(receptor_http_request_t *request);
 
 	/**
-	 * @brief ´¦ÀíHTTPÇëÇó
-	 * @param request ÇëÇó¶ÔÏó
-	 * @return ´¦Àí×´Ì¬
+	 * @brief å¤„ç†HTTPè¯·æ±‚
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @return å¤„ç†çŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_process_request(receptor_http_request_t *request);
 
 	/**
-	 * @brief ½áÊøÇëÇó´¦Àí
-	 * @param request ÇëÇó¶ÔÏó
-	 * @return ´¦Àí×´Ì¬
+	 * @brief ç»“æŸè¯·æ±‚å¤„ç†
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @return å¤„ç†çŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_finalize_request(receptor_http_request_t *request);
 
 	/**
-	 * @brief ÖÕÖ¹ÇëÇó£¨´íÎó´¦Àí£©
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param status ×´Ì¬Âë
-	 * @return ´¦Àí×´Ì¬
+	 * @brief ç»ˆæ­¢è¯·æ±‚ï¼ˆé”™è¯¯å¤„ç†ï¼‰
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param status çŠ¶æ€ç 
+	 * @return å¤„ç†çŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_terminate_request(receptor_http_request_t *request,
 			receptor_uint_t status);
 
-	/* ==================== Í·²¿²Ù×÷ ==================== */
+	/* ==================== å¤´éƒ¨æ“ä½œ ==================== */
 
 	/**
-	 * @brief Ìí¼ÓÇëÇóÍ·²¿
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param key Í·²¿×Ö¶ÎÃû
-	 * @param value Í·²¿×Ö¶ÎÖµ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief æ·»åŠ è¯·æ±‚å¤´éƒ¨
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param key å¤´éƒ¨å­—æ®µå
+	 * @param value å¤´éƒ¨å­—æ®µå€¼
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_add_header(receptor_http_request_t *request,
 			const char *key, const char *value);
 
 	/**
-	 * @brief ÒÆ³ıÇëÇóÍ·²¿
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param key Í·²¿×Ö¶ÎÃû
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief ç§»é™¤è¯·æ±‚å¤´éƒ¨
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param key å¤´éƒ¨å­—æ®µå
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_remove_header(receptor_http_request_t *request, const char *key);
 
 	/**
-	 * @brief ÉèÖÃÄÚÈİÀàĞÍ
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param content_type ÄÚÈİÀàĞÍ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief è®¾ç½®å†…å®¹ç±»å‹
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param content_type å†…å®¹ç±»å‹
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_set_content_type(receptor_http_request_t *request,
 			const char *content_type);
 
 	/**
-	 * @brief ÉèÖÃÄÚÈİ³¤¶È
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param length ÄÚÈİ³¤¶È
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief è®¾ç½®å†…å®¹é•¿åº¦
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param length å†…å®¹é•¿åº¦
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_set_content_length(receptor_http_request_t *request,
 			size_t length);
 
-	/* ==================== Ö÷Ìå²Ù×÷ ==================== */
+	/* ==================== ä¸»ä½“æ“ä½œ ==================== */
 
 	/**
-	 * @brief ¶ÁÈ¡ÇëÇóÖ÷Ìå
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param buffer Êä³ö»º³åÇø
-	 * @param size »º³åÇø´óĞ¡
-	 * @return ¶ÁÈ¡µÄ×Ö½ÚÊı
+	 * @brief è¯»å–è¯·æ±‚ä¸»ä½“
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param buffer è¾“å‡ºç¼“å†²åŒº
+	 * @param size ç¼“å†²åŒºå¤§å°
+	 * @return è¯»å–çš„å­—èŠ‚æ•°
 	 */
 	RECEPTOR_API ssize_t
 		receptor_http_read_body(receptor_http_request_t *request,
 			u_char *buffer, size_t size);
 
 	/**
-	 * @brief »ñÈ¡Õû¸öÇëÇóÖ÷Ìå
-	 * @param request ÇëÇó¶ÔÏó
-	 * @return ÇëÇóÖ÷ÌåÊı¾İ
+	 * @brief è·å–æ•´ä¸ªè¯·æ±‚ä¸»ä½“
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @return è¯·æ±‚ä¸»ä½“æ•°æ®
 	 */
 	RECEPTOR_API receptor_str_t
 		receptor_http_get_body(receptor_http_request_t *request);
 
 	/**
-	 * @brief Ìí¼ÓÇëÇó¿éÊı¾İ
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param data ¿éÊı¾İ
-	 * @param size Êı¾İ´óĞ¡
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief æ·»åŠ è¯·æ±‚å—æ•°æ®
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param data å—æ•°æ®
+	 * @param size æ•°æ®å¤§å°
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_add_chunk(receptor_http_request_t *request,
 			const u_char *data, size_t size);
 
-	/* ==================== ¹¤¾ßº¯Êı ==================== */
+	/* ==================== å·¥å…·å‡½æ•° ==================== */
 
 	/**
-	 * @brief »ñÈ¡HTTP×´Ì¬ÃèÊö
-	 * @param status ×´Ì¬Âë
-	 * @return ×´Ì¬ÃèÊö×Ö·û´®
+	 * @brief è·å–HTTPçŠ¶æ€æè¿°
+	 * @param status çŠ¶æ€ç 
+	 * @return çŠ¶æ€æè¿°å­—ç¬¦ä¸²
 	 */
 	RECEPTOR_API const char*
 		receptor_http_get_status_text(receptor_uint_t status);
 
 	/**
-	 * @brief ½âÂëURL±àÂë×Ö·û´®
-	 * @param dst Êä³ö»º³åÇø
-	 * @param src Ô´×Ö·û´®
-	 * @param size Ô´×Ö·û´®´óĞ¡
-	 * @return ½âÂëºóµÄ×Ö·û´®´óĞ¡
+	 * @brief è§£ç URLç¼–ç å­—ç¬¦ä¸²
+	 * @param dst è¾“å‡ºç¼“å†²åŒº
+	 * @param src æºå­—ç¬¦ä¸²
+	 * @param size æºå­—ç¬¦ä¸²å¤§å°
+	 * @return è§£ç åçš„å­—ç¬¦ä¸²å¤§å°
 	 */
 	RECEPTOR_API size_t
 		receptor_http_unescape_uri(u_char *dst, const u_char *src, size_t size);
 
 	/**
-	 * @brief ±àÂëURL×Ö·û´®
-	 * @param dst Êä³ö»º³åÇø
-	 * @param src Ô´×Ö·û´®
-	 * @param size Ô´×Ö·û´®´óĞ¡
-	 * @return ±àÂëºóµÄ×Ö·û´®´óĞ¡
+	 * @brief ç¼–ç URLå­—ç¬¦ä¸²
+	 * @param dst è¾“å‡ºç¼“å†²åŒº
+	 * @param src æºå­—ç¬¦ä¸²
+	 * @param size æºå­—ç¬¦ä¸²å¤§å°
+	 * @return ç¼–ç åçš„å­—ç¬¦ä¸²å¤§å°
 	 */
 	RECEPTOR_API size_t
 		receptor_http_escape_uri(u_char *dst, const u_char *src, size_t size);
 
 	/**
-	 * @brief ½âÎö²éÑ¯×Ö·û´®
-	 * @param request ÇëÇó¶ÔÏó
-	 * @param data ²éÑ¯×Ö·û´®
-	 * @param size ×Ö·û´®´óĞ¡
-	 * @return ½âÎö×´Ì¬
+	 * @brief è§£ææŸ¥è¯¢å­—ç¬¦ä¸²
+	 * @param request è¯·æ±‚å¯¹è±¡
+	 * @param data æŸ¥è¯¢å­—ç¬¦ä¸²
+	 * @param size å­—ç¬¦ä¸²å¤§å°
+	 * @return è§£æçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_parse_args(receptor_http_request_t *request,
 			const u_char *data, size_t size);
 
 	/**
-	 * @brief »ñÈ¡µ±Ç°Ê±¼ä´Á£¨ÓÃÓÚÇëÇó¼ÆÊ±£©
-	 * @param request ÇëÇó¶ÔÏó
+	 * @brief è·å–å½“å‰æ—¶é—´æˆ³ï¼ˆç”¨äºè¯·æ±‚è®¡æ—¶ï¼‰
+	 * @param request è¯·æ±‚å¯¹è±¡
 	 */
 	RECEPTOR_API void
 		receptor_http_update_time(receptor_http_request_t *request);
 
-	/* ==================== ×ÓÇëÇóÖ§³Ö ==================== */
+	/* ==================== å­è¯·æ±‚æ”¯æŒ ==================== */
 
 	/**
-	 * @brief ´´½¨×ÓÇëÇó
-	 * @param parent ¸¸ÇëÇó
-	 * @return ×ÓÇëÇó¶ÔÏó
+	 * @brief åˆ›å»ºå­è¯·æ±‚
+	 * @param parent çˆ¶è¯·æ±‚
+	 * @return å­è¯·æ±‚å¯¹è±¡
 	 */
 	RECEPTOR_API receptor_http_request_t*
 		receptor_http_create_subrequest(receptor_http_request_t *parent);
 
 	/**
-	 * @brief Ö´ĞĞ×ÓÇëÇó
-	 * @param subrequest ×ÓÇëÇó
-	 * @return Ö´ĞĞ×´Ì¬
+	 * @brief æ‰§è¡Œå­è¯·æ±‚
+	 * @param subrequest å­è¯·æ±‚
+	 * @return æ‰§è¡ŒçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_run_subrequest(receptor_http_request_t *subrequest);
 
 	/**
-	 * @brief µÈ´ı×ÓÇëÇóÍê³É
-	 * @param subrequest ×ÓÇëÇó
-	 * @return µÈ´ı×´Ì¬
+	 * @brief ç­‰å¾…å­è¯·æ±‚å®Œæˆ
+	 * @param subrequest å­è¯·æ±‚
+	 * @return ç­‰å¾…çŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_http_wait_subrequest(receptor_http_request_t *subrequest);
