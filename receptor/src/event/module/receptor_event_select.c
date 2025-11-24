@@ -1,5 +1,5 @@
-#include "../receptor_event.h"
-#include "../include/receptor_defs.h"
+#include <receptor/def.h>
+#include <receptor_event.h>
 #include <stdlib.h>
 
 #ifdef _WIN32

@@ -1,224 +1,224 @@
-#ifndef _RECEPTOR_LIST_H_
+ï»¿#ifndef _RECEPTOR_LIST_H_
 #define _RECEPTOR_LIST_H_
 
-#include "../include/receptor_defs.h"
+#include "receptor/def.h"
 #include "receptor_palloc.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	/* ==================== Á´±í½Úµã¶¨Òå ==================== */
+	/* ==================== é“¾è¡¨èŠ‚ç‚¹å®šä¹‰ ==================== */
 
 	/**
-	 * Á´±í½Úµã½á¹¹
+	 * é“¾è¡¨èŠ‚ç‚¹ç»“æ„
 	 */
 	typedef struct receptor_list_node_s receptor_list_node_t;
 
 	struct receptor_list_node_s {
-		receptor_list_node_t   *prev;      /* Ç°Çı½Úµã */
-		receptor_list_node_t   *next;      /* ºó¼Ì½Úµã */
-		void                  *data;      /* ½ÚµãÊı¾İ */
+		receptor_list_node_t   *prev;      /* å‰é©±èŠ‚ç‚¹ */
+		receptor_list_node_t   *next;      /* åç»§èŠ‚ç‚¹ */
+		void                  *data;      /* èŠ‚ç‚¹æ•°æ® */
 	};
 
-	/* ==================== Á´±í½á¹¹¶¨Òå ==================== */
+	/* ==================== é“¾è¡¨ç»“æ„å®šä¹‰ ==================== */
 
 	/**
-	 * Ë«ÏòÁ´±í½á¹¹
+	 * åŒå‘é“¾è¡¨ç»“æ„
 	 */
 	typedef struct receptor_list_s receptor_list_t;
 
 	struct receptor_list_s {
-		receptor_list_node_t   *head;      /* Í·½Úµã */
-		receptor_list_node_t   *tail;      /* Î²½Úµã */
-		receptor_uint_t         size;      /* Á´±í´óĞ¡ */
-		receptor_pool_t        *pool;      /* ÄÚ´æ³Ø */
-		size_t                  data_size; /* Êı¾İ´óĞ¡£¨0±íÊ¾¶¯Ì¬´óĞ¡£© */
+		receptor_list_node_t   *head;      /* å¤´èŠ‚ç‚¹ */
+		receptor_list_node_t   *tail;      /* å°¾èŠ‚ç‚¹ */
+		receptor_uint_t         size;      /* é“¾è¡¨å¤§å° */
+		receptor_pool_t        *pool;      /* å†…å­˜æ±  */
+		size_t                  data_size; /* æ•°æ®å¤§å°ï¼ˆ0è¡¨ç¤ºåŠ¨æ€å¤§å°ï¼‰ */
 	};
 
-	/* ==================== Á´±íµü´úÆ÷¶¨Òå ==================== */
+	/* ==================== é“¾è¡¨è¿­ä»£å™¨å®šä¹‰ ==================== */
 
 	/**
-	 * Á´±íµü´úÆ÷
+	 * é“¾è¡¨è¿­ä»£å™¨
 	 */
 	typedef struct receptor_list_iter_s receptor_list_iter_t;
 
 	struct receptor_list_iter_s {
-		receptor_list_t        *list;      /* ¹ØÁªµÄÁ´±í */
-		receptor_list_node_t   *current;   /* µ±Ç°½Úµã */
+		receptor_list_t        *list;      /* å…³è”çš„é“¾è¡¨ */
+		receptor_list_node_t   *current;   /* å½“å‰èŠ‚ç‚¹ */
 	};
 
-	/* ==================== Á´±í²Ù×÷API ==================== */
+	/* ==================== é“¾è¡¨æ“ä½œAPI ==================== */
 
 	/**
-	 * @brief ´´½¨Á´±í
-	 * @param pool ÄÚ´æ³Ø
-	 * @param data_size Êı¾İ´óĞ¡£¨0±íÊ¾¶¯Ì¬´óĞ¡£©
-	 * @return Á´±íÖ¸Õë
+	 * @brief åˆ›å»ºé“¾è¡¨
+	 * @param pool å†…å­˜æ± 
+	 * @param data_size æ•°æ®å¤§å°ï¼ˆ0è¡¨ç¤ºåŠ¨æ€å¤§å°ï¼‰
+	 * @return é“¾è¡¨æŒ‡é’ˆ
 	 */
 	RECEPTOR_API receptor_list_t*
 		receptor_list_create(receptor_pool_t *pool, size_t data_size);
 
 	/**
-	 * @brief Ïú»ÙÁ´±í
-	 * @param list Á´±íÖ¸Õë
+	 * @brief é”€æ¯é“¾è¡¨
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
 	 */
 	RECEPTOR_API void
 		receptor_list_destroy(receptor_list_t *list);
 
 	/**
-	 * @brief ÔÚÁ´±íÍ·²¿²åÈëÔªËØ
-	 * @param list Á´±íÖ¸Õë
-	 * @param data ÔªËØÊı¾İ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief åœ¨é“¾è¡¨å¤´éƒ¨æ’å…¥å…ƒç´ 
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param data å…ƒç´ æ•°æ®
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_push_front(receptor_list_t *list, const void *data);
 
 	/**
-	 * @brief ÔÚÁ´±íÎ²²¿²åÈëÔªËØ
-	 * @param list Á´±íÖ¸Õë
-	 * @param data ÔªËØÊı¾İ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief åœ¨é“¾è¡¨å°¾éƒ¨æ’å…¥å…ƒç´ 
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param data å…ƒç´ æ•°æ®
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_push_back(receptor_list_t *list, const void *data);
 
 	/**
-	 * @brief ´ÓÁ´±íÍ·²¿µ¯³öÔªËØ
-	 * @param list Á´±íÖ¸Õë
-	 * @param data Êä³öÊı¾İ»º³åÇø
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief ä»é“¾è¡¨å¤´éƒ¨å¼¹å‡ºå…ƒç´ 
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param data è¾“å‡ºæ•°æ®ç¼“å†²åŒº
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_pop_front(receptor_list_t *list, void *data);
 
 	/**
-	 * @brief ´ÓÁ´±íÎ²²¿µ¯³öÔªËØ
-	 * @param list Á´±íÖ¸Õë
-	 * @param data Êä³öÊı¾İ»º³åÇø
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief ä»é“¾è¡¨å°¾éƒ¨å¼¹å‡ºå…ƒç´ 
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param data è¾“å‡ºæ•°æ®ç¼“å†²åŒº
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_pop_back(receptor_list_t *list, void *data);
 
 	/**
-	 * @brief ÔÚÖ¸¶¨Î»ÖÃ²åÈëÔªËØ
-	 * @param list Á´±íÖ¸Õë
-	 * @param iter µü´úÆ÷Î»ÖÃ
-	 * @param data ÔªËØÊı¾İ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief åœ¨æŒ‡å®šä½ç½®æ’å…¥å…ƒç´ 
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param iter è¿­ä»£å™¨ä½ç½®
+	 * @param data å…ƒç´ æ•°æ®
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_insert(receptor_list_t *list, receptor_list_iter_t *iter,
 			const void *data);
 
 	/**
-	 * @brief É¾³ıÖ¸¶¨Î»ÖÃµÄÔªËØ
-	 * @param list Á´±íÖ¸Õë
-	 * @param iter µü´úÆ÷Î»ÖÃ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief åˆ é™¤æŒ‡å®šä½ç½®çš„å…ƒç´ 
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param iter è¿­ä»£å™¨ä½ç½®
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_erase(receptor_list_t *list, receptor_list_iter_t *iter);
 
 	/**
-	 * @brief ²éÕÒÔªËØ
-	 * @param list Á´±íÖ¸Õë
-	 * @param data ²éÕÒÊı¾İ
-	 * @param compar ±È½Ïº¯Êı
-	 * @return µü´úÆ÷Î»ÖÃ
+	 * @brief æŸ¥æ‰¾å…ƒç´ 
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param data æŸ¥æ‰¾æ•°æ®
+	 * @param compar æ¯”è¾ƒå‡½æ•°
+	 * @return è¿­ä»£å™¨ä½ç½®
 	 */
 	RECEPTOR_API receptor_list_iter_t
 		receptor_list_find(receptor_list_t *list, const void *data,
 			int(*compar)(const void *, const void *));
 
 	/**
-	 * @brief »ñÈ¡Á´±í´óĞ¡
-	 * @param list Á´±íÖ¸Õë
-	 * @return Á´±í´óĞ¡
+	 * @brief è·å–é“¾è¡¨å¤§å°
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @return é“¾è¡¨å¤§å°
 	 */
 	RECEPTOR_API receptor_uint_t
 		receptor_list_size(receptor_list_t *list);
 
 	/**
-	 * @brief ¼ì²éÁ´±íÊÇ·ñÎª¿Õ
-	 * @param list Á´±íÖ¸Õë
-	 * @return 1Îª¿Õ£¬0Îª·Ç¿Õ
+	 * @brief æ£€æŸ¥é“¾è¡¨æ˜¯å¦ä¸ºç©º
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @return 1ä¸ºç©ºï¼Œ0ä¸ºéç©º
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_empty(receptor_list_t *list);
 
 	/**
-	 * @brief Çå¿ÕÁ´±í
-	 * @param list Á´±íÖ¸Õë
+	 * @brief æ¸…ç©ºé“¾è¡¨
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
 	 */
 	RECEPTOR_API void
 		receptor_list_clear(receptor_list_t *list);
 
 	/**
-	 * @brief Á´±íÅÅĞò
-	 * @param list Á´±íÖ¸Õë
-	 * @param compar ±È½Ïº¯Êı
+	 * @brief é“¾è¡¨æ’åº
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @param compar æ¯”è¾ƒå‡½æ•°
 	 */
 	RECEPTOR_API void
 		receptor_list_sort(receptor_list_t *list,
 			int(*compar)(const void *, const void *));
 
-	/* ==================== µü´úÆ÷²Ù×÷API ==================== */
+	/* ==================== è¿­ä»£å™¨æ“ä½œAPI ==================== */
 
 	/**
-	 * @brief »ñÈ¡Á´±íÍ·²¿µü´úÆ÷
-	 * @param list Á´±íÖ¸Õë
-	 * @return µü´úÆ÷
+	 * @brief è·å–é“¾è¡¨å¤´éƒ¨è¿­ä»£å™¨
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @return è¿­ä»£å™¨
 	 */
 	RECEPTOR_API receptor_list_iter_t
 		receptor_list_begin(receptor_list_t *list);
 
 	/**
-	 * @brief »ñÈ¡Á´±íÎ²²¿µü´úÆ÷
-	 * @param list Á´±íÖ¸Õë
-	 * @return µü´úÆ÷
+	 * @brief è·å–é“¾è¡¨å°¾éƒ¨è¿­ä»£å™¨
+	 * @param list é“¾è¡¨æŒ‡é’ˆ
+	 * @return è¿­ä»£å™¨
 	 */
 	RECEPTOR_API receptor_list_iter_t
 		receptor_list_end(receptor_list_t *list);
 
 	/**
-	 * @brief µü´úÆ÷Ç°½ø
-	 * @param iter µü´úÆ÷Ö¸Õë
-	 * @return Ç°½øºóµÄµü´úÆ÷
+	 * @brief è¿­ä»£å™¨å‰è¿›
+	 * @param iter è¿­ä»£å™¨æŒ‡é’ˆ
+	 * @return å‰è¿›åçš„è¿­ä»£å™¨
 	 */
 	RECEPTOR_API receptor_list_iter_t
 		receptor_list_iter_next(receptor_list_iter_t *iter);
 
 	/**
-	 * @brief µü´úÆ÷ºóÍË
-	 * @param iter µü´úÆ÷Ö¸Õë
-	 * @return ºóÍËºóµÄµü´úÆ÷
+	 * @brief è¿­ä»£å™¨åé€€
+	 * @param iter è¿­ä»£å™¨æŒ‡é’ˆ
+	 * @return åé€€åçš„è¿­ä»£å™¨
 	 */
 	RECEPTOR_API receptor_list_iter_t
 		receptor_list_iter_prev(receptor_list_iter_t *iter);
 
 	/**
-	 * @brief »ñÈ¡µü´úÆ÷Êı¾İ
-	 * @param iter µü´úÆ÷
-	 * @return Êı¾İÖ¸Õë
+	 * @brief è·å–è¿­ä»£å™¨æ•°æ®
+	 * @param iter è¿­ä»£å™¨
+	 * @return æ•°æ®æŒ‡é’ˆ
 	 */
 	RECEPTOR_API void*
 		receptor_list_iter_data(receptor_list_iter_t *iter);
 
 	/**
-	 * @brief ¼ì²éµü´úÆ÷ÊÇ·ñÓĞĞ§
-	 * @param iter µü´úÆ÷
-	 * @return 1ÓĞĞ§£¬0ÎŞĞ§
+	 * @brief æ£€æŸ¥è¿­ä»£å™¨æ˜¯å¦æœ‰æ•ˆ
+	 * @param iter è¿­ä»£å™¨
+	 * @return 1æœ‰æ•ˆï¼Œ0æ— æ•ˆ
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_list_iter_valid(receptor_list_iter_t *iter);
 
-	/* ==================== ºê¶¨Òå ==================== */
+	/* ==================== å®å®šä¹‰ ==================== */
 
 	/**
-	 * Á´±í±éÀúºê
+	 * é“¾è¡¨éå†å®
 	 */
 #define receptor_list_foreach(list, type, var, code) \
     do { \
@@ -231,7 +231,7 @@ extern "C" {
     } while(0)
 
 	 /**
-	  * °²È«Á´±í±éÀúºê£¨ÔÊĞíÔÚÑ­»·ÖĞÉ¾³ıÔªËØ£©
+	  * å®‰å…¨é“¾è¡¨éå†å®ï¼ˆå…è®¸åœ¨å¾ªç¯ä¸­åˆ é™¤å…ƒç´ ï¼‰
 	  */
 #define receptor_list_foreach_safe(list, type, var, code) \
     do { \

@@ -28,11 +28,8 @@ message(STATUS "C++ Compiler ID: ${CMAKE_CXX_COMPILER_ID}")
 message(STATUS "C++ Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
 
 # 添加子项目
-add_subdirectory(frontend)
-add_subdirectory(front)
-add_subdirectory(agent)
 add_subdirectory(receptor)
 
-add_custom_target(final DEPENDS web front agent receptor)
+add_custom_target(final DEPENDS receptor)
 
 message(STATUS "Build directory: ${CMAKE_BINARY_DIR}")

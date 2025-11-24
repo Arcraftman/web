@@ -1,7 +1,7 @@
 #ifndef _RECEPTOR_STRING_H_
 #define _RECEPTOR_STRING_H_
 
-#include "../include/receptor_defs.h"
+#include "receptor/def.h"
 
 typedef struct {
 	size_t      len;

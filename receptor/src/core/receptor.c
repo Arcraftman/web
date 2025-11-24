@@ -1,3 +1,4 @@
+#include <receptor/def.h>
 #include "receptor.h"
 #include "receptor_array.h"
 #include "receptor_list.h"

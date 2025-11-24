@@ -1,6 +1,6 @@
+#include <receptor/def.h>
 #include "receptor_os.h"
-#include "../../include/receptor_defs.h"
-#include "../../core/receptor_palloc.h"
+#include <receptor_palloc.h>
 #include <stdio.h>
 
 #ifdef _WIN32
@@ -35,7 +35,7 @@ receptor_win32_error_string(receptor_int_t error)
 	);
 
 	if (len == 0) {
-		_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "Unknown error %lld", error);
+		_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "Unknown error %lld", (long long)error);
 	}
 
 	return buffer;
@@ -58,7 +58,7 @@ receptor_win32_close_handle(HANDLE handle)
 RECEPTOR_API receptor_int_t
 receptor_win32_get_system_time(void)
 {
-	return (receptor_int_t)GetTickCount();
+	return (receptor_int_t)GetTickCount64();
 }
 
 RECEPTOR_API receptor_int_t

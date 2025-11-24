@@ -10,10 +10,10 @@
 #include <windows.h>
 #endif
 
-/* °üº¬×Ô¶¯Éú³ÉµÄÅäÖÃÍ·ÎÄ¼ş */
-#include "receptor_config.h"
+/* åŒ…å«è‡ªåŠ¨ç”Ÿæˆçš„é…ç½®å¤´æ–‡ä»¶ */
+#include <receptor/config.h>
 
-/* °æ±¾ĞÅÏ¢ */
+/* ç‰ˆæœ¬ä¿¡æ¯ */
 #ifndef RECEPTOR_VERSION
 #define RECEPTOR_VERSION "1.0.0"
 #endif
@@ -27,7 +27,7 @@
 
 #define RECEPTOR_MAX_ERROR_STR 2048
 
-/* Windows ¼æÈİĞÔÀàĞÍ¶¨Òå */
+/* Windows å…¼å®¹æ€§ç±»å‹å®šä¹‰ */
 #ifdef _WIN32
 typedef INT_PTR             receptor_int_t;
 typedef UINT_PTR            receptor_uint_t;
@@ -40,19 +40,19 @@ typedef int                 receptor_socket_t;
 #define RECEPTOR_INVALID_SOCKET (-1)
 #endif
 
-/* DLL µ¼³öĞŞÊÎ - ĞŞ¸´¾²Ì¬¿â¹¹½¨ÎÊÌâ */
-#if defined(_WIN32) && defined(RECEPTOR_BUILD_DLL)
-	/* ¹¹½¨ DLL Ê±µ¼³ö */
+/* DLL å¯¼å‡ºä¿®é¥° - ä¿®å¤é™æ€åº“æ„å»ºé—®é¢˜ */
+#if defined(_WIN32) && defined(RECEPTOR_DLL_EXPORT)
+	/* æ„å»º DLL æ—¶å¯¼å‡º */
 #define RECEPTOR_API __declspec(dllexport)
 #elif defined(_WIN32) && defined(RECEPTOR_USE_DLL)
-	/* Ê¹ÓÃ DLL Ê±µ¼Èë */
+	/* ä½¿ç”¨ DLL æ—¶å¯¼å…¥ */
 #define RECEPTOR_API __declspec(dllimport)
 #else
-	/* ¾²Ì¬¿â»òÆäËûÆ½Ì¨ */
+	/* é™æ€åº“æˆ–å…¶ä»–å¹³å° */
 #define RECEPTOR_API
 #endif
 
-/* Ê±¼äÀàĞÍ */
+/* æ—¶é—´ç±»å‹ */
 #ifdef _WIN32
 typedef LARGE_INTEGER       receptor_time_t;
 #else

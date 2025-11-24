@@ -1,4 +1,5 @@
-#include "../receptor_event.h"
+#include <receptor/def.h>
+#include <receptor_event.h>
 
 #ifdef __linux__
 #include <sys/epoll.h>

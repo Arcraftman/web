@@ -1,7 +1,7 @@
-#ifndef _RECEPTOR_PALLOC_H_
+﻿#ifndef _RECEPTOR_PALLOC_H_
 #define _RECEPTOR_PALLOC_H_
 
-#include "../include/receptor_defs.h"
+#include <receptor/def.h>
 
 typedef struct receptor_pool_s     receptor_pool_t;
 

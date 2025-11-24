@@ -1,8 +1,9 @@
+#include <receptor/def.h>
 #include "receptor_array.h"
 #include <string.h>
 #include <stdlib.h>
 
-/* Ä¬ÈÏÀ©ÈİÒò×Ó */
+/* é»˜è®¤æ‰©å®¹å› å­ */
 #define RECEPTOR_ARRAY_DEFAULT_CAPACITY  16
 #define RECEPTOR_ARRAY_GROWTH_FACTOR     2
 
@@ -15,19 +16,19 @@ receptor_array_create(receptor_pool_t *pool, receptor_uint_t n, size_t size)
 		return NULL;
 	}
 
-	/* ·ÖÅäÊı×é½á¹¹ */
+	/* åˆ†é…æ•°ç»„ç»“æ„ */
 	array = receptor_pcalloc(pool, sizeof(receptor_array_t));
 	if (array == NULL) {
 		return NULL;
 	}
 
-	/* ³õÊ¼»¯Êı×é */
+	/* åˆå§‹åŒ–æ•°ç»„ */
 	array->nelts = 0;
 	array->size = size;
 	array->nalloc = (n > 0) ? n : RECEPTOR_ARRAY_DEFAULT_CAPACITY;
 	array->pool = pool;
 
-	/* ·ÖÅäÔªËØÄÚ´æ */
+	/* åˆ†é…å…ƒç´ å†…å­˜ */
 	array->elts = receptor_palloc(pool, array->nalloc * size);
 	if (array->elts == NULL) {
 		return NULL;
@@ -40,7 +41,7 @@ RECEPTOR_API void
 receptor_array_destroy(receptor_array_t *array)
 {
 	if (array && array->pool) {
-		/* ÄÚ´æ³Ø»á×Ô¶¯¹ÜÀíÄÚ´æ£¬ÕâÀïÖ»ĞèÒªÖØÖÃ×´Ì¬ */
+		/* å†…å­˜æ± ä¼šè‡ªåŠ¨ç®¡ç†å†…å­˜ï¼Œè¿™é‡Œåªéœ€è¦é‡ç½®çŠ¶æ€ */
 		array->elts = NULL;
 		array->nelts = 0;
 		array->nalloc = 0;
@@ -56,7 +57,7 @@ receptor_array_push(receptor_array_t *array)
 		return NULL;
 	}
 
-	/* ¼ì²éÊÇ·ñĞèÒªÀ©Èİ */
+	/* æ£€æŸ¥æ˜¯å¦éœ€è¦æ‰©å®¹ */
 	if (array->nelts >= array->nalloc) {
 		receptor_uint_t new_nalloc;
 		void *new_elts;
@@ -71,7 +72,7 @@ receptor_array_push(receptor_array_t *array)
 			return NULL;
 		}
 
-		/* ¸´ÖÆÔ­ÓĞÊı¾İ */
+		/* å¤åˆ¶åŸæœ‰æ•°æ® */
 		if (array->nelts > 0) {
 			memcpy(new_elts, array->elts, array->nelts * array->size);
 		}
@@ -80,7 +81,7 @@ receptor_array_push(receptor_array_t *array)
 		array->nalloc = new_nalloc;
 	}
 
-	/* ·µ»ØĞÂÔªËØÎ»ÖÃ */
+	/* è¿”å›æ–°å…ƒç´ ä½ç½® */
 	elt = (u_char*)array->elts + array->nelts * array->size;
 	array->nelts++;
 
@@ -96,7 +97,7 @@ receptor_array_push_n(receptor_array_t *array, receptor_uint_t n)
 		return NULL;
 	}
 
-	/* ¼ì²éÊÇ·ñĞèÒªÀ©Èİ */
+	/* æ£€æŸ¥æ˜¯å¦éœ€è¦æ‰©å®¹ */
 	if (array->nelts + n > array->nalloc) {
 		receptor_uint_t new_nalloc;
 		void *new_elts;
@@ -111,7 +112,7 @@ receptor_array_push_n(receptor_array_t *array, receptor_uint_t n)
 			return NULL;
 		}
 
-		/* ¸´ÖÆÔ­ÓĞÊı¾İ */
+		/* å¤åˆ¶åŸæœ‰æ•°æ® */
 		if (array->nelts > 0) {
 			memcpy(new_elts, array->elts, array->nelts * array->size);
 		}
@@ -120,7 +121,7 @@ receptor_array_push_n(receptor_array_t *array, receptor_uint_t n)
 		array->nalloc = new_nalloc;
 	}
 
-	/* ·µ»ØĞÂÔªËØÎ»ÖÃ */
+	/* è¿”å›æ–°å…ƒç´ ä½ç½® */
 	elts = (u_char*)array->elts + array->nelts * array->size;
 	array->nelts += n;
 
@@ -172,20 +173,20 @@ receptor_array_insert(receptor_array_t *array, receptor_uint_t index, const void
 		return RECEPTOR_ERROR;
 	}
 
-	/* È·±£ÓĞ×ã¹»¿Õ¼ä */
+	/* ç¡®ä¿æœ‰è¶³å¤Ÿç©ºé—´ */
 	elts = receptor_array_push(array);
 	if (elts == NULL) {
 		return RECEPTOR_ERROR;
 	}
 
-	/* ÒÆ¶¯ÔªËØ */
+	/* ç§»åŠ¨å…ƒç´  */
 	if (index < array->nelts - 1) {
 		memmove((u_char*)array->elts + (index + 1) * array->size,
 			(u_char*)array->elts + index * array->size,
 			(array->nelts - index - 1) * array->size);
 	}
 
-	/* ²åÈëĞÂÔªËØ */
+	/* æ’å…¥æ–°å…ƒç´  */
 	memcpy((u_char*)array->elts + index * array->size, value, array->size);
 
 	return RECEPTOR_OK;
@@ -198,7 +199,7 @@ receptor_array_delete(receptor_array_t *array, receptor_uint_t index)
 		return RECEPTOR_ERROR;
 	}
 
-	/* ÒÆ¶¯ÔªËØ¸²¸ÇÉ¾³ıÎ»ÖÃ */
+	/* ç§»åŠ¨å…ƒç´ è¦†ç›–åˆ é™¤ä½ç½® */
 	if (index < array->nelts - 1) {
 		memmove((u_char*)array->elts + index * array->size,
 			(u_char*)array->elts + (index + 1) * array->size,

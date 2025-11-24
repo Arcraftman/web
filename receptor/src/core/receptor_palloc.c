@@ -1,3 +1,4 @@
+#include <receptor/def.h>
 #include "receptor_palloc.h"
 #include <stdlib.h>
 #include <string.h>
@@ -62,13 +63,13 @@ receptor_palloc(receptor_pool_t *pool, size_t size)
 			}
 		}
 
-		/* ĞèÒª´´½¨ĞÂµÄpool¿é */
+		/* éœ€è¦åˆ›å»ºæ–°çš„poolå— */
 		new_p = receptor_create_pool(RECEPTOR_DEFAULT_POOL_SIZE);
 		if (new_p == NULL) {
 			return NULL;
 		}
 
-		/* Ìí¼Óµ½Á´±í */
+		/* æ·»åŠ åˆ°é“¾è¡¨ */
 		for (p = pool; p->next; p = p->next) { /* void */ }
 		p->next = new_p;
 
@@ -77,7 +78,7 @@ receptor_palloc(receptor_pool_t *pool, size_t size)
 		return ptr;
 	}
 
-	/* ´óÄÚ´æ·ÖÅä */
+	/* å¤§å†…å­˜åˆ†é… */
 	return receptor_memalign(RECEPTOR_POOL_ALIGNMENT, size);
 }
 
@@ -97,10 +98,10 @@ receptor_memalign(size_t alignment, size_t size)
 	void *p;
 
 #ifdef _WIN32
-	/* Windows Ê¹ÓÃ _aligned_malloc */
+	/* Windows ä½¿ç”¨ _aligned_malloc */
 	p = _aligned_malloc(size, alignment);
 #else
-	/* Unix Ê¹ÓÃ posix_memalign */
+	/* Unix ä½¿ç”¨ posix_memalign */
 	if (posix_memalign(&p, alignment, size) != 0) {
 		return NULL;
 	}

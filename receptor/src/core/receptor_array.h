@@ -1,177 +1,177 @@
 #ifndef _RECEPTOR_ARRAY_H_
 #define _RECEPTOR_ARRAY_H_
 
-#include "../include/receptor_defs.h"
+#include "receptor/def.h"
 #include "receptor_palloc.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	/* ==================== Êı×é½á¹¹¶¨Òå ==================== */
+	/* ==================== æ•°ç»„ç»“æ„å®šä¹‰ ==================== */
 
 	/**
-	 * ¶¯Ì¬Êı×é½á¹¹
-	 * ·ÂÕÕnginxµÄÊı×éÉè¼Æ£¬Ö§³Ö¶¯Ì¬À©Èİ
+	 * åŠ¨æ€æ•°ç»„ç»“æ„
+	 * ä»¿ç…§nginxçš„æ•°ç»„è®¾è®¡ï¼Œæ”¯æŒåŠ¨æ€æ‰©å®¹
 	 */
 	typedef struct receptor_array_s receptor_array_t;
 
 	struct receptor_array_s {
-		void        *elts;      /* Êı×éÔªËØÖ¸Õë */
-		receptor_uint_t   nelts;     /* µ±Ç°ÔªËØÊıÁ¿ */
-		size_t       size;      /* µ¥¸öÔªËØ´óĞ¡ */
-		receptor_uint_t   nalloc;    /* ·ÖÅäµÄÔªËØÊıÁ¿ */
-		receptor_pool_t  *pool;      /* ÄÚ´æ³Ø */
+		void        *elts;      /* æ•°ç»„å…ƒç´ æŒ‡é’ˆ */
+		receptor_uint_t   nelts;     /* å½“å‰å…ƒç´ æ•°é‡ */
+		size_t       size;      /* å•ä¸ªå…ƒç´ å¤§å° */
+		receptor_uint_t   nalloc;    /* åˆ†é…çš„å…ƒç´ æ•°é‡ */
+		receptor_pool_t  *pool;      /* å†…å­˜æ±  */
 	};
 
-	/* ==================== Êı×é²Ù×÷API ==================== */
+	/* ==================== æ•°ç»„æ“ä½œAPI ==================== */
 
 	/**
-	 * @brief ´´½¨¶¯Ì¬Êı×é
-	 * @param pool ÄÚ´æ³Ø
-	 * @param n ³õÊ¼ÈİÁ¿
-	 * @param size ÔªËØ´óĞ¡
-	 * @return Êı×éÖ¸Õë
+	 * @brief åˆ›å»ºåŠ¨æ€æ•°ç»„
+	 * @param pool å†…å­˜æ± 
+	 * @param n åˆå§‹å®¹é‡
+	 * @param size å…ƒç´ å¤§å°
+	 * @return æ•°ç»„æŒ‡é’ˆ
 	 */
 	RECEPTOR_API receptor_array_t*
 		receptor_array_create(receptor_pool_t *pool, receptor_uint_t n, size_t size);
 
 	/**
-	 * @brief Ïú»ÙÊı×é
-	 * @param array Êı×éÖ¸Õë
+	 * @brief é”€æ¯æ•°ç»„
+	 * @param array æ•°ç»„æŒ‡é’ˆ
 	 */
 	RECEPTOR_API void
 		receptor_array_destroy(receptor_array_t *array);
 
 	/**
-	 * @brief ÏòÊı×éÌí¼ÓÔªËØ
-	 * @param array Êı×éÖ¸Õë
-	 * @return ĞÂÔªËØÖ¸Õë£¬Ê§°Ü·µ»ØNULL
+	 * @brief å‘æ•°ç»„æ·»åŠ å…ƒç´ 
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @return æ–°å…ƒç´ æŒ‡é’ˆï¼Œå¤±è´¥è¿”å›NULL
 	 */
 	RECEPTOR_API void*
 		receptor_array_push(receptor_array_t *array);
 
 	/**
-	 * @brief ÏòÊı×éÌí¼Ó¶à¸öÔªËØ
-	 * @param array Êı×éÖ¸Õë
-	 * @param n ÔªËØÊıÁ¿
-	 * @return µÚÒ»¸öĞÂÔªËØÖ¸Õë£¬Ê§°Ü·µ»ØNULL
+	 * @brief å‘æ•°ç»„æ·»åŠ å¤šä¸ªå…ƒç´ 
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param n å…ƒç´ æ•°é‡
+	 * @return ç¬¬ä¸€ä¸ªæ–°å…ƒç´ æŒ‡é’ˆï¼Œå¤±è´¥è¿”å›NULL
 	 */
 	RECEPTOR_API void*
 		receptor_array_push_n(receptor_array_t *array, receptor_uint_t n);
 
 	/**
-	 * @brief ´ÓÊı×éµ¯³öÔªËØ
-	 * @param array Êı×éÖ¸Õë
-	 * @return µ¯³öµÄÔªËØÖ¸Õë
+	 * @brief ä»æ•°ç»„å¼¹å‡ºå…ƒç´ 
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @return å¼¹å‡ºçš„å…ƒç´ æŒ‡é’ˆ
 	 */
 	RECEPTOR_API void*
 		receptor_array_pop(receptor_array_t *array);
 
 	/**
-	 * @brief »ñÈ¡Ö¸¶¨Ë÷ÒıµÄÔªËØ
-	 * @param array Êı×éÖ¸Õë
-	 * @param index Ë÷ÒıÎ»ÖÃ
-	 * @return ÔªËØÖ¸Õë
+	 * @brief è·å–æŒ‡å®šç´¢å¼•çš„å…ƒç´ 
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param index ç´¢å¼•ä½ç½®
+	 * @return å…ƒç´ æŒ‡é’ˆ
 	 */
 	RECEPTOR_API void*
 		receptor_array_get(receptor_array_t *array, receptor_uint_t index);
 
 	/**
-	 * @brief ÉèÖÃÖ¸¶¨Ë÷ÒıµÄÔªËØ
-	 * @param array Êı×éÖ¸Õë
-	 * @param index Ë÷ÒıÎ»ÖÃ
-	 * @param value ÔªËØÖµ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief è®¾ç½®æŒ‡å®šç´¢å¼•çš„å…ƒç´ 
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param index ç´¢å¼•ä½ç½®
+	 * @param value å…ƒç´ å€¼
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_array_set(receptor_array_t *array, receptor_uint_t index, const void *value);
 
 	/**
-	 * @brief ÔÚÖ¸¶¨Î»ÖÃ²åÈëÔªËØ
-	 * @param array Êı×éÖ¸Õë
-	 * @param index ²åÈëÎ»ÖÃ
-	 * @param value ÔªËØÖµ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief åœ¨æŒ‡å®šä½ç½®æ’å…¥å…ƒç´ 
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param index æ’å…¥ä½ç½®
+	 * @param value å…ƒç´ å€¼
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_array_insert(receptor_array_t *array, receptor_uint_t index, const void *value);
 
 	/**
-	 * @brief É¾³ıÖ¸¶¨Î»ÖÃµÄÔªËØ
-	 * @param array Êı×éÖ¸Õë
-	 * @param index É¾³ıÎ»ÖÃ
-	 * @return ²Ù×÷×´Ì¬
+	 * @brief åˆ é™¤æŒ‡å®šä½ç½®çš„å…ƒç´ 
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param index åˆ é™¤ä½ç½®
+	 * @return æ“ä½œçŠ¶æ€
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_array_delete(receptor_array_t *array, receptor_uint_t index);
 
 	/**
-	 * @brief Çå¿ÕÊı×é
-	 * @param array Êı×éÖ¸Õë
+	 * @brief æ¸…ç©ºæ•°ç»„
+	 * @param array æ•°ç»„æŒ‡é’ˆ
 	 */
 	RECEPTOR_API void
 		receptor_array_clear(receptor_array_t *array);
 
 	/**
-	 * @brief »ñÈ¡Êı×éÔªËØÊıÁ¿
-	 * @param array Êı×éÖ¸Õë
-	 * @return ÔªËØÊıÁ¿
+	 * @brief è·å–æ•°ç»„å…ƒç´ æ•°é‡
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @return å…ƒç´ æ•°é‡
 	 */
 	RECEPTOR_API receptor_uint_t
 		receptor_array_nelts(receptor_array_t *array);
 
 	/**
-	 * @brief »ñÈ¡Êı×éÈİÁ¿
-	 * @param array Êı×éÖ¸Õë
-	 * @return Êı×éÈİÁ¿
+	 * @brief è·å–æ•°ç»„å®¹é‡
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @return æ•°ç»„å®¹é‡
 	 */
 	RECEPTOR_API receptor_uint_t
 		receptor_array_nalloc(receptor_array_t *array);
 
 	/**
-	 * @brief ¼ì²éÊı×éÊÇ·ñÎª¿Õ
-	 * @param array Êı×éÖ¸Õë
-	 * @return 1Îª¿Õ£¬0Îª·Ç¿Õ
+	 * @brief æ£€æŸ¥æ•°ç»„æ˜¯å¦ä¸ºç©º
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @return 1ä¸ºç©ºï¼Œ0ä¸ºéç©º
 	 */
 	RECEPTOR_API receptor_int_t
 		receptor_array_empty(receptor_array_t *array);
 
 	/**
-	 * @brief Êı×éÅÅĞò
-	 * @param array Êı×éÖ¸Õë
-	 * @param compar ±È½Ïº¯Êı
+	 * @brief æ•°ç»„æ’åº
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param compar æ¯”è¾ƒå‡½æ•°
 	 */
 	RECEPTOR_API void
 		receptor_array_sort(receptor_array_t *array,
 			int(*compar)(const void *, const void *));
 
 	/**
-	 * @brief Êı×é²éÕÒ
-	 * @param array Êı×éÖ¸Õë
-	 * @param key ²éÕÒ¼ü
-	 * @param compar ±È½Ïº¯Êı
-	 * @return ÔªËØÖ¸Õë£¬Î´ÕÒµ½·µ»ØNULL
+	 * @brief æ•°ç»„æŸ¥æ‰¾
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param key æŸ¥æ‰¾é”®
+	 * @param compar æ¯”è¾ƒå‡½æ•°
+	 * @return å…ƒç´ æŒ‡é’ˆï¼Œæœªæ‰¾åˆ°è¿”å›NULL
 	 */
 	RECEPTOR_API void*
 		receptor_array_find(receptor_array_t *array, const void *key,
 			int(*compar)(const void *, const void *));
 
 	/**
-	 * @brief Êı×é±éÀú
-	 * @param array Êı×éÖ¸Õë
-	 * @param func ±éÀúº¯Êı
-	 * @param data ÓÃ»§Êı¾İ
+	 * @brief æ•°ç»„éå†
+	 * @param array æ•°ç»„æŒ‡é’ˆ
+	 * @param func éå†å‡½æ•°
+	 * @param data ç”¨æˆ·æ•°æ®
 	 */
 	RECEPTOR_API void
 		receptor_array_foreach(receptor_array_t *array,
 			void(*func)(void *element, void *data),
 			void *data);
 
-	/* ==================== ºê¶¨Òå ==================== */
+	/* ==================== å®å®šä¹‰ ==================== */
 
 	/**
-	 * ¿ìËÙ·ÃÎÊÊı×éÔªËØµÄºê
+	 * å¿«é€Ÿè®¿é—®æ•°ç»„å…ƒç´ çš„å®
 	 */
 
 
@@ -180,7 +180,7 @@ extern "C" {
 #define receptor_array_size(array)      ((array)->size)
 
 	 /**
-	  * Êı×é±éÀúºê
+	  * æ•°ç»„éå†å®
 	  */
 #define receptor_array_foreach_element(array, type, var, code) \
     do { \
