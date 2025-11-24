@@ -100,12 +100,6 @@ endif()
 # 创建构建目录
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/src/include/receptor)
 
-# 配置头文件
-configure_file(
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/include/receptor_config.h.in
-    ${CMAKE_CURRENT_BINARY_DIR}/src/include/receptor_config.h
-    @ONLY
-)
 
 # 根据配置选择构建类型
 if(RECEPTOR_BUILD_STATIC)
